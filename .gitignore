@@ -1,3 +1,8 @@
 # PyCharm IDEA
 
 .idea
+
+
+# PyCache
+
+__pycache__
