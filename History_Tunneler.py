@@ -10,11 +10,7 @@ if __name__ == '__main__':
     print()
     z = Character.Zombi()
     print(z)
-
-    print()
     s = Character.Skeleton()
     print(s)
-
-    print()
     g = Character.Goblin()
     print(g)
