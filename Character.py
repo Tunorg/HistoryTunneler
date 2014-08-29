@@ -292,7 +292,7 @@ class Zombi(Character):
     """Класс Зомби."""
     def __init__(self):
         self.name = "Зомби"
-        self.level = 2
+        self.states.level = 2
         self.description = "Живой труп."
 
 
@@ -300,7 +300,7 @@ class Skeleton(Character):
     """Класс Скелет."""
     def __init__(self):
         self.name = "Скелет"
-        self.level = 1
+        self.states.level = 1
         self.description = "Когда-то это было живым существом, а теперь от него остались только кости."
 
 
@@ -308,5 +308,5 @@ class Goblin(Character):
     """Класс Гоблин."""
     def __init__(self):
         self.name = "Гоблин"
-        self.level = 1
+        self.states.level = 1
         self.description = "Маленькое, пронырливое, трусливое зеленокожее существо."
