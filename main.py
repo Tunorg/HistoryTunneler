@@ -1,10 +1,10 @@
 __author__ = 'ipetrash'
 
+import Story
 import Character
 
 if __name__ == '__main__':
     # Проверка пользовательского модуля
-    import Story
     print(Story.ENTRY)
 
     print()
