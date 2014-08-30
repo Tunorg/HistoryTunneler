@@ -12,15 +12,16 @@ class Zombi(Character):
 
         self.atk = 40
         self.level = 7
-        self.max_hp, self.hp = 468, 468
         self.strength = 30
-        self.vit = 10
-        self.mag = 6
-        self.spr = 5
-        self.spd = 21
-        self.eva = 0
+        self.vitality = 10
+        # self.magic = 6
+        # self.spirit = 5
+        # self.speed = 21
+        self.evasion = 0
         self.hit = 100
         self.luck = 10
+
+        self.hp = self.max_hp
 
 
 class Goblin(Character):
@@ -33,12 +34,13 @@ class Goblin(Character):
         self.atk = 30
 
         self.level = 17
-        self.max_hp, self.hp = 482, 482
         self.strength = 18
-        self.vit = 5
-        self.mag = 10
-        self.spr = 4
-        self.spd = 17
-        self.eva = 10
+        self.vitality = 5
+        # self.magic = 10
+        # self.spirit = 4
+        # self.speed = 17
+        self.evasion = 10
         self.hit = 100
         self.luck = 15
+
+        self.hp = self.max_hp
