@@ -2,7 +2,7 @@
 ===========
 
 ####EN:
-Simple console game
+Simple console game.
 
 ####RU:
-Простая консольная игра
+Простая консольная игра.
