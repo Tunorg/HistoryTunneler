@@ -34,6 +34,16 @@ if __name__ == '__main__':
         z = Zoo.Zombi()
         print(z)
 
+        g = Zoo.Goblin()
+        print(g)
+
+        h = Zoo.Hero()
+        print(h)
+
+        print()
+        print("Для получения {0} уровня нужно {1} опыта.\n"
+              "Базовое здоровье {0} уровня будет равно {2}".format(6, Character.EXPS[6], Character.HPMOD[6]))
+
     except Character.DeadException as err:
         print("Сообщение: {} --> {}".format(err, err.character))
 
