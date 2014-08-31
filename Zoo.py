@@ -3,6 +3,27 @@ __author__ = 'ipetrash'
 from Character import Character
 
 
+class Hero(Character):
+    """Класс Герой"""
+
+    def __init__(self):
+        self.name = "Затерявшийся проходчик."
+        self.description = "Собственно это я!"
+
+        self.atk = 20
+        self.level = 1
+        self.strength = 25
+        self.vitality = 10
+        # self.magic = 6
+        # self.spirit = 5
+        # self.speed = 21
+        self.evasion = 20
+        self.hit = 100
+        self.luck = 10
+
+        self.hp = self.max_hp
+
+
 class Zombi(Character):
     """Класс Зомби."""
 
@@ -10,16 +31,16 @@ class Zombi(Character):
         self.name = "Зомби"
         self.description = "Когда-то это было живым существом."
 
-        self.atk = 40
-        self.level = 7
-        self.strength = 30
+        self.atk = 10
+        self.level = 1
+        self.strength = 8
         self.vitality = 10
         # self.magic = 6
         # self.spirit = 5
         # self.speed = 21
         self.evasion = 0
-        self.hit = 100
-        self.luck = 10
+        self.hit = 65
+        self.luck = 5
 
         self.hp = self.max_hp
 
@@ -31,16 +52,16 @@ class Goblin(Character):
         self.name = "Гоблин"
         self.description = "Маленькое, пронырливое, трусливое зеленокожее существо."
 
-        self.atk = 30
+        self.atk = 8
 
-        self.level = 17
-        self.strength = 18
+        self.level = 1
+        self.strength = 5
         self.vitality = 5
         # self.magic = 10
         # self.spirit = 4
         # self.speed = 17
-        self.evasion = 10
-        self.hit = 100
-        self.luck = 15
+        self.evasion = 5
+        self.hit = 68
+        self.luck = 5
 
         self.hp = self.max_hp
