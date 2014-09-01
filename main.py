@@ -18,7 +18,6 @@ if __name__ == '__main__':
         # print(g)
         #
         # # Эмитация боя
-        # # TODO: воспользоваться исключениями, чтоб отлавливать, когда кто-то умрет
         # while z.hp > 0 and g.hp > 0:
         #     print("______________________")
         #     z.attack_to(g)
@@ -43,6 +42,13 @@ if __name__ == '__main__':
         print()
         print("Для получения {0} уровня нужно {1} опыта.\n"
               "Базовое здоровье {0} уровня будет равно {2}".format(6, Character.EXPS[6], Character.HPMOD[6]))
+
+
+        print()
+        h.exp += 10
+        h.exp += 10
+        h.exp += 5
+        h.exp += 12
 
     except Character.DeadException as err:
         print("Сообщение: {} --> {}".format(err, err.character))
