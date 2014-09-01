@@ -57,9 +57,31 @@ class HealWhenDeadException(Exception):
 class Character:
     """Общий класс для персонажей."""
 
-    # TODO: добавить дескриптор. При изменении exp нужно сверять с таблицей опыта EXPS
-    #       и если опыта набрали достаточно, увеличивать уровень
-    exp = 0  # текущее количество опыта
+    __exp = 0
+    def get_exp(self):
+        return self.__exp
+    def set_exp(self, value):
+        if value < self.exp:
+            print("Опыт не может быть отрицательным!")
+            return
+
+        print("\nДобавлен опыт: {}".format(value - self.exp))
+
+        self.__exp = value
+
+        def has_level_up(level, exp):
+            if EXPS[level + 1] - exp <= 0:
+                return True
+            return False
+
+        while has_level_up(self.level, self.exp):
+            self.level += 1
+            print(" Уровень повысился! Уровень:", self.level)
+
+        print(" Опыта: {}, уровень: {}, до следующего "
+              "уровня осталось опыта: {}".format(self.exp, self.level, EXPS[self.level + 1] - self.exp))
+    exp = property(get_exp, set_exp)
+
 
     # TODO: добавить дескриптор. При изменении уровня нужно пересчитывать статы 
     #       персонажа, например max_hp (хоть в get_max_hp и происходит пересчет,
