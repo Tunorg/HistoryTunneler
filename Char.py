@@ -2,6 +2,7 @@ __author__ = 'ipetrash'
 
 from math import floor
 from random import randint, randrange
+from CharType import CharType
 
 
 # Индекс -- уровень, значение -- базовое здоровье для данного уровня
@@ -45,34 +46,12 @@ EXPS = [
 MAX_LEVEL = len(EXPS) - 1
 
 
-# class DeadException(Exception):
-#     def __init__(self, character):
-#         self.character = character
-#     def __repr__(self):
-#         return "{} мертв!".format(self.character.name)
-#     def __str__(self):
-#         return self.__repr__()
-#
-#
-# class HealWhenDeadException(Exception):
-#     def __init__(self, character):
-#         self.character = character
-#     def __repr__(self):
-#         return "Лечение {0} не принесло эффекта, потому что {0} мертв!".format(self.character.name)
-#     def __str__(self):
-#         return self.__repr__()
-#
-#
-# class MaxLevelException(Exception):
-#     def __init__(self, character):
-#         self.character = character
-#     def __repr__(self):
-#         return ("Превышение максимального уровня {} "
-#                 "({} lvl{})!".format(MAX_LEVEL, self.character.name, self.character.level))
-#     def __str__(self):
-#         return self.__repr__()
-
 DEBUG_MODE = True
+
+# TODO: Character переименовать в Base
+# TODO: Хорошо бы интерфейс или абстракный сделать, чтоб нагляднее выглядел класс персонажа
+# Сейчас же, класс персонажа напоминает вермишель
+
 
 class Character:
     """Общий класс для персонажей."""
@@ -139,39 +118,25 @@ class Character:
         if self.exp < EXPS[self.__level]:  # "подгонка" опыта под уровень
             self.exp = EXPS[self.__level]
 
-
-        ## Уровень повысился, пора пересчитать статы
-
-        # TODO: статы должны зависить от уровня
-        # TODO: думаю, возможно нужно ввести базовые статы и к этим статам будут добавляться бонусы статов за уровни
-        # TODO: можно даже сделать разделение по базовым статам типам персонажей: монстр, животное, человек и т.п.
-        # self.atk = 10
-        # self.strength = 8
-        # self.vitality = 10
-        # # self.magic = 6
-        # # self.spirit = 5
-        # # self.speed = 21
-        # self.evasion = 0
-        # self.hit = 65
-        # self.luck = 5
-
-        # FF9: http://finalfantasy.wikia.com/wiki/HP
-        # [Str * HPMod(Level) / 50]
-        self.max_hp = floor(self.strength * HPMOD[self.level] / 50)
+        # Выполним пересчет статов
+        self.type.do_calc_stats(self)
 
         # После получения нового уровня, персонаж восстанавлиет здоровье до максимального
         self.hp = self.max_hp
-
     level = property(get_level, set_level)
 
 
-    ap = 0  # очки мастерства, используемые для прокачки навыков (Ability Points)
+    __type = CharType()
+    def get_type(self):
+        return self.__type
+    def set_type(self, value):
+        if self.__type == value:
+            return
+        self.__type = value
+        # Выполним пересчет статов
+        self.__type.do_calc_stats(self)
+    type = property(get_type, set_type)
 
-    # Типы существ в D&D, можно там подчерпнуть варианты.
-    # Думаю, тип персонажа будет не просто строка с описанием, а объект, который содержит название типа,
-    # короткое описание и базовые статы данного типа.
-    # http://ru.rpg.wikia.com/wiki/%D0%A2%D0%B8%D0%BF_%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%B0
-    type = "???"  # Тип персонажа: например монстр, нежить, животное, человек, дракон и т.п.
 
     __dead = False
     def get_dead(self):
@@ -185,12 +150,17 @@ class Character:
                 print("{} мертв!".format(self.name))
     dead = property(get_dead, set_dead)
 
+
     __max_hp = 0
     def get_max_hp(self):
         return self.__max_hp
     def set_max_hp(self, value):
+        hp_was_max = self.hp == self.__max_hp
         self.__max_hp = value
-    max_hp = property(get_max_hp, set_max_hp, doc="Max hit points")
+        if hp_was_max:
+            self.hp = self.__max_hp
+    max_hp = property(get_max_hp, set_max_hp)
+
 
     __hp = 0
     def get_hp(self):
@@ -203,46 +173,23 @@ class Character:
         if value < 0:  # Здоровье не может быть меньше 0
             self.dead = True
             value = 0
-        if value > self.__max_hp:  # Здоровье не может быть больше максимального
-            value = self.__max_hp
+        if value > self.max_hp:  # Здоровье не может быть больше максимального
+            value = self.max_hp
         self.__hp = value
     hp = property(get_hp, set_hp, doc="Hit points")
 
-    __strength = 0
-    def get_strength(self):
-        return self.__strength
-    def set_strength(self, value):
-        if value < 0:
-            value = 0
-        self.__strength = value
-    strength = property(get_strength, set_strength, doc="Strength")
 
+    atk = 0
+    strength = 0
     vitality = 0
-    # magic = 0
-    # spirit = 0
-    # speed = 0
     evasion = 0
     hit = 0
     luck = 0
 
     name = "???"
     description = "???"
-    atk = 0  # урон оружия
+    ap = 0  # очки мастерства, используемые для прокачки навыков (Ability Points)
 
-    def __repr__(self):
-        # self.atk = 10
-        # self.strength = 8
-        # self.vitality = 10
-        # self.magic = 6
-        # self.spirit = 5
-        # self.speed = 21
-        # self.evasion = 0
-        # self.hit = 65
-        # self.luck = 5
-        return ("{} lvl: {}, stats: hp: {}/{}, str: {}, atk: {}, "
-                "vit: {}, eva: {}, hit: {}%, luck: {}".format(self.name, self.level, self.hp, self.max_hp,
-                                                              self.strength, self.atk, self.vitality, self.evasion,
-                                                              self.hit, self.luck))
 
     def attack_to(self, other):
         """Функция атаки персонажей."""
@@ -254,8 +201,7 @@ class Character:
         has_hit = randrange(0, 100) < percent
 
         if DEBUG_MODE:
-            print()
-            print("Шанс попасть: {}%: {}".format(percent, has_hit))
+            print("\nШанс попасть: {}%: {}".format(percent, has_hit))
 
         if has_hit:
             # Подсчитаем урон, который нанесем противнику
@@ -289,3 +235,10 @@ class Character:
         else:
             if DEBUG_MODE:
                 print("{}({}) промахнулся по {}({})!".format(self.name, self.level, other.name, other.level))
+
+
+    def __repr__(self):
+        return ("{} lvl: {} (Тип '{}'), stats: hp: {}/{}, str: {}, atk: {}, "
+                "vit: {}, eva: {}, hit: {}%, luck: {}".format(self.name, self.level, self.type.name, self.hp,
+                                                              self.max_hp, self.strength, self.atk, self.vitality,
+                                                              self.evasion, self.hit, self.luck))

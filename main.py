@@ -82,3 +82,44 @@ if __name__ == '__main__':
     print(h)
     h.level += 1
     print(h)
+
+
+    import CharType
+    z2 = Zoo.Zombi()
+    # Тип можно динамически изменить
+    z2.type = CharType.SuperZombiType()
+    print()
+    print(z2)
+    z2.level += 1
+    print(z2)
+    z2.level += 1
+    print(z2)
+
+
+    z = Zoo.Zombi()
+    print()
+    print(z)
+    z.level += 1
+    print(z)
+    z.level += 1
+    print(z)
+
+
+    g = Zoo.Goblin()
+    print()
+    print(g)
+    g.level += 1
+    print(g)
+    g.level += 1
+    print(g)
+
+
+    f = Char.Character()
+    f.level = 1
+    f.name = "Неизвестная монстр"
+    print()
+    print(f)
+    f.level += 1
+    print(f)
+    f.level += 1
+    print(f)
