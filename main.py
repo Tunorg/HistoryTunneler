@@ -3,55 +3,82 @@ __author__ = 'ipetrash'
 # import Story
 import Zoo
 import Character
-
 # import time
 
+# TODO: Добавить модуль теста
+
 if __name__ == '__main__':
-    try:
-        # # Проверка пользовательского модуля
-        # print(Story.ENTRY)
-        #
-        # print()
-        # z = Zoo.Zombi()
-        # print(z)
-        # g = Zoo.Goblin()
-        # print(g)
-        #
-        # # Эмитация боя
-        # while z.hp > 0 and g.hp > 0:
-        #     print("______________________")
-        #     z.attack_to(g)
-        #     g.attack_to(z)
-        #     time.sleep(1)
-        #
-        # print("\n\n{} hp: {} and {} hp: {}".format(z.name, z.hp, g.name, g.hp))
-        # if z.hp == 0 and g.hp == 0:
-        #     print("Оба сдохли!")
-        # else:
-        #     print("{} победил!".format(z.name if z.hp else g.name))
+    # # Проверка пользовательского модуля
+    # print(Story.ENTRY)
+    #
+    # print()
+    # z = Zoo.Zombi()
+    # print(z)
+    # g = Zoo.Goblin()
+    # print(g)
+    #
+    # # Эмитация боя
+    # while z.hp > 0 and g.hp > 0:
+    #     print("______________________")
+    #     z.attack_to(g)
+    #     g.attack_to(z)
+    #     time.sleep(1)
+    #
+    # print("\n\n{} hp: {} and {} hp: {}".format(z.name, z.hp, g.name, g.hp))
+    # if z.hp == 0 and g.hp == 0:
+    #     print("Оба сдохли!")
+    # else:
+    #     print("{} победил!".format(z.name if z.hp else g.name))
 
-        z = Zoo.Zombi()
-        print(z)
+    # z = Zoo.Zombi()
+    # print(z)
+    #
+    # g = Zoo.Goblin()
+    # print(g)
 
-        g = Zoo.Goblin()
-        print(g)
+    # h = Zoo.Hero()
+    # print(h)
 
-        h = Zoo.Hero()
-        print(h)
-
-        print()
-        print("Для получения {0} уровня нужно {1} опыта.\n"
-              "Базовое здоровье {0} уровня будет равно {2}".format(6, Character.EXPS[6], Character.HPMOD[6]))
+    # print()
+    # print("Для получения {0} уровня нужно {1} опыта.\n"
+    #       "Базовое здоровье {0} уровня будет равно {2}".format(6, Char.EXPS[6], Char.HPMOD[6]))
 
 
-        print()
-        h.exp += 10
-        h.exp += 10
-        h.exp += 5
-        h.exp += 12
+    # Проверка добавления опыта
+    # print()
+    # h = Zoo.Hero()
+    # print(h)
+    # h.exp += 1000
+    #
+    # h.exp += 10
+    # print(h)
+    # h.exp += 10
+    # h.exp += 5
+    # print(h)
+    # h.exp += 12
+    # print(h)
+    #
+    # # Проверка изменения уровня
+    # print()
+    # h = Zoo.Hero()
+    # h.level = 10
+    # print(h)
+    # h.level = 1
+    # print(h)
 
-    except Character.DeadException as err:
-        print("Сообщение: {} --> {}".format(err, err.character))
+    # print("\nМаксимальный уровень: {}".format(Char.MAX_LEVEL))
+    #
+    # # Сыграем в ситуацию, когда уровень оказался выше максимального
+    # print()
+    # h = Zoo.Hero()
+    # h.level = Char.MAX_LEVEL + 100
 
-    except Character.HealWhenDeadException as err:
-        print("Сообщение: {} --> {}".format(err, err.character))
+    # Проверка изменения статов при изменении уровня
+    Character.DEBUG_MODE = False  # Убираем вывод в консоль
+    print()
+    h = Zoo.Hero()
+    print(h)
+    h.level += 1
+    print(h)
+    h.level += 1
+    print(h)

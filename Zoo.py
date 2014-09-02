@@ -7,11 +7,10 @@ class Hero(Character):
     """Класс Герой"""
 
     def __init__(self):
-        self.name = "Затерявшийся проходчик."
+        self.name = "Проходчик"
         self.description = "Собственно это я!"
 
         self.atk = 20
-        self.level = 1
         self.strength = 25
         self.vitality = 10
         # self.magic = 6
@@ -21,6 +20,7 @@ class Hero(Character):
         self.hit = 100
         self.luck = 10
 
+        self.level = 1
         self.hp = self.max_hp
 
 
@@ -32,7 +32,6 @@ class Zombi(Character):
         self.description = "Когда-то это было живым существом."
 
         self.atk = 10
-        self.level = 1
         self.strength = 8
         self.vitality = 10
         # self.magic = 6
@@ -42,6 +41,7 @@ class Zombi(Character):
         self.hit = 65
         self.luck = 5
 
+        self.level = 1
         self.hp = self.max_hp
 
 
@@ -53,8 +53,6 @@ class Goblin(Character):
         self.description = "Маленькое, пронырливое, трусливое зеленокожее существо."
 
         self.atk = 8
-
-        self.level = 1
         self.strength = 5
         self.vitality = 5
         # self.magic = 10
@@ -64,4 +62,5 @@ class Goblin(Character):
         self.hit = 68
         self.luck = 5
 
+        self.level = 1
         self.hp = self.max_hp

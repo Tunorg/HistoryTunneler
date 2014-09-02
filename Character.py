@@ -35,24 +35,44 @@ EXPS = [
     7226084, 7546266, 7876982, 8218461, 8570934, 8934635, 9309800, 9696668,
 ]
 
-
-class DeadException(Exception):
-    def __init__(self, character):
-        self.character = character
-    def __repr__(self):
-        return "{} мертв!".format(self.character.name)
-    def __str__(self):
-        return self.__repr__()
+# # Таблица роста: кортеж, чей индекс это уровень, а значение -- пары значений: здоровье и опыт
+# TABLE_GROWTH = tuple(zip(HPMOD, EXPS))
+# for i, (hp, exps) in enumerate(TABLE_GROWTH):
+#      print("Уровень {0:2d}: HP: {1:4d}, EXP: {2:}".format(i, hp, exps))
 
 
-class HealWhenDeadException(Exception):
-    def __init__(self, character):
-        self.character = character
-    def __repr__(self):
-        return "Лечение {0} не принесло эффекта, потому что {0} мертв!".format(self.character.name)
-    def __str__(self):
-        return self.__repr__()
+# Максимальный уровень
+MAX_LEVEL = len(EXPS) - 1
 
+
+# class DeadException(Exception):
+#     def __init__(self, character):
+#         self.character = character
+#     def __repr__(self):
+#         return "{} мертв!".format(self.character.name)
+#     def __str__(self):
+#         return self.__repr__()
+#
+#
+# class HealWhenDeadException(Exception):
+#     def __init__(self, character):
+#         self.character = character
+#     def __repr__(self):
+#         return "Лечение {0} не принесло эффекта, потому что {0} мертв!".format(self.character.name)
+#     def __str__(self):
+#         return self.__repr__()
+#
+#
+# class MaxLevelException(Exception):
+#     def __init__(self, character):
+#         self.character = character
+#     def __repr__(self):
+#         return ("Превышение максимального уровня {} "
+#                 "({} lvl{})!".format(MAX_LEVEL, self.character.name, self.character.level))
+#     def __str__(self):
+#         return self.__repr__()
+
+DEBUG_MODE = True
 
 class Character:
     """Общий класс для персонажей."""
@@ -65,30 +85,89 @@ class Character:
             print("Опыт не может быть отрицательным!")
             return
 
-        print("\nДобавлен опыт: {}".format(value - self.exp))
+        if DEBUG_MODE:
+            print("\nДобавлен опыт: {}".format(value - self.__exp))
 
         self.__exp = value
 
         def has_level_up(level, exp):
-            if EXPS[level + 1] - exp <= 0:
+            if level >= MAX_LEVEL:  # Уровень не может превышать максимальный
+                return False
+            if EXPS[level + 1] - exp <= 0:  # Если набрали достаточное количество опыта для level-up'а
                 return True
             return False
 
-        while has_level_up(self.level, self.exp):
+        # Пока возможно получать уровень
+        while has_level_up(self.level, self.__exp):
             self.level += 1
-            print(" Уровень повысился! Уровень:", self.level)
 
-        print(" Опыта: {}, уровень: {}, до следующего "
-              "уровня осталось опыта: {}".format(self.exp, self.level, EXPS[self.level + 1] - self.exp))
+        if DEBUG_MODE:
+            if self.level == MAX_LEVEL:
+                print(" Достигнут максимальный уровень: {}".format(MAX_LEVEL))
+            else:
+                print(" Опыта: {}, уровень: {}, до следующего "
+                      "уровня осталось опыта: {}\n".format(self.exp, self.level, EXPS[self.level + 1] - self.exp))
     exp = property(get_exp, set_exp)
 
 
-    # TODO: добавить дескриптор. При изменении уровня нужно пересчитывать статы 
-    #       персонажа, например max_hp (хоть в get_max_hp и происходит пересчет,
-    #       такая реализация очень не удобная)
-    level = 0  # уровень
+    __level = 0
+    def get_level(self):
+        return self.__level
+    def set_level(self, value):
+        if self.__level == value:
+            if DEBUG_MODE:
+                print("Уровень не изменился")
+            return
+
+        if self.__level > value:
+            if DEBUG_MODE:
+                print("\nЧто за черт? Уровень не может уменьшиться: "
+                      "текущий уровень {}, устанавливаемый: {}\n".format(self.__level, value))
+            return
+
+        self.__level = value
+        if self.__level > MAX_LEVEL:
+            self.__level = MAX_LEVEL  # Уровень не может быть выше максимального, потому уменьшим до MAX_LEVEL
+            if DEBUG_MODE:
+                print(("Превышение максимального уровня {} ({} lvl{})!".format(MAX_LEVEL, self.name, self.level)))
+
+        # Нет смысла показывать данное сообщение, если у нас начальный уровень
+        if DEBUG_MODE:
+            if self.__level > 1:
+                print(" Уровень повысился! Уровень:", self.__level)
+
+        if self.exp < EXPS[self.__level]:  # "подгонка" опыта под уровень
+            self.exp = EXPS[self.__level]
+
+
+        ## Уровень повысился, пора пересчитать статы
+
+        # TODO: статы должны зависить от уровня
+        # TODO: думаю, возможно нужно ввести базовые статы и к этим статам будут добавляться бонусы статов за уровни
+        # TODO: можно даже сделать разделение по базовым статам типам персонажей: монстр, животное, человек и т.п.
+        # self.atk = 10
+        # self.strength = 8
+        # self.vitality = 10
+        # # self.magic = 6
+        # # self.spirit = 5
+        # # self.speed = 21
+        # self.evasion = 0
+        # self.hit = 65
+        # self.luck = 5
+
+        # FF9: http://finalfantasy.wikia.com/wiki/HP
+        # [Str * HPMod(Level) / 50]
+        self.max_hp = floor(self.strength * HPMOD[self.level] / 50)
+
+        # После получения нового уровня, персонаж восстанавлиет здоровье до максимального
+        self.hp = self.max_hp
+
+    level = property(get_level, set_level)
+
 
     ap = 0  # очки мастерства, используемые для прокачки навыков (Ability Points)
+
+    type = "???"  # Тип персонажа: например монстр, нежить, животное, человек, дракон и т.п.
 
     __dead = False
     def get_dead(self):
@@ -98,17 +177,15 @@ class Character:
         if self.dead:
             if self.hp != 0:
                 self.hp = 0
-            raise DeadException(self)
+            if DEBUG_MODE:
+                print("{} мертв!".format(self.name))
     dead = property(get_dead, set_dead)
 
     __max_hp = 0
     def get_max_hp(self):
-        # FF9: http://finalfantasy.wikia.com/wiki/HP
-        # [Str * HPMode(Level) / 50]
-        self.__max_hp = floor(self.strength * HPMOD[self.level] / 50)
         return self.__max_hp
     def set_max_hp(self, value):
-        self.hp = value
+        self.__max_hp = value
     max_hp = property(get_max_hp, set_max_hp, doc="Max hit points")
 
     __hp = 0
@@ -117,7 +194,8 @@ class Character:
     def set_hp(self, value):
         if self.dead and value > 0:
             self.__hp = 0
-            raise HealWhenDeadException(self)
+            if DEBUG_MODE:
+                print("Лечение {0} не принесло эффекта, потому что {0} мертв!".format(self.name))
         if value < 0:  # Здоровье не может быть меньше 0
             self.dead = True
             value = 0
@@ -148,7 +226,19 @@ class Character:
     atk = 0  # урон оружия
 
     def __repr__(self):
-        return "{} lvl: {}, hp: {}/{}, str: {}".format(self.name, self.level, self.hp, self.max_hp, self.strength)
+        # self.atk = 10
+        # self.strength = 8
+        # self.vitality = 10
+        # self.magic = 6
+        # self.spirit = 5
+        # self.speed = 21
+        # self.evasion = 0
+        # self.hit = 65
+        # self.luck = 5
+        return ("{} lvl: {}, stats: hp: {}/{}, str: {}, atk: {}, "
+                "vit: {}, eva: {}, hit: {}%, luck: {}".format(self.name, self.level, self.hp, self.max_hp,
+                                                              self.strength, self.atk, self.vitality, self.evasion,
+                                                              self.hit, self.luck))
 
     def attack_to(self, other):
         """Функция атаки персонажей."""
@@ -159,8 +249,9 @@ class Character:
         percent = floor(percent)
         has_hit = randrange(0, 100) < percent
 
-        print()
-        print("Шанс попасть: {}%: {}".format(percent, has_hit))
+        if DEBUG_MODE:
+            print()
+            print("Шанс попасть: {}%: {}".format(percent, has_hit))
 
         if has_hit:
             # Подсчитаем урон, который нанесем противнику
@@ -181,14 +272,16 @@ class Character:
 
             other.hp -= dmg
 
-            if has_crit:
-                print("{}({}) нанес {}({}) критический удар: {} урон!".format(self.name, self.level, other.name,
-                                                                              other.level, dmg * 2), end="")
-            else:
-                print("{}({}) нанес {}({}) {} урона!".format(self.name, self.level, other.name,
-                                                             other.level, dmg), end="")
+            if DEBUG_MODE:
+                if has_crit:
+                    print("{}({}) нанес {}({}) критический удар: "
+                          "{} урон!".format(self.name, self.level, other.name, other.level, dmg * 2), end="")
+                else:
+                    print("{}({}) нанес {}({})"
+                          " {} урона!".format(self.name, self.level, other.name, other.level, dmg), end="")
 
-            print(" Осталось hp: {}".format(other.hp))
+                print(" Осталось hp: {}".format(other.hp))
 
         else:
-            print("{}({}) промахнулся по {}({})!".format(self.name, self.level, other.name, other.level))
+            if DEBUG_MODE:
+                print("{}({}) промахнулся по {}({})!".format(self.name, self.level, other.name, other.level))
