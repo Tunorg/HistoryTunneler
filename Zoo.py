@@ -1,6 +1,6 @@
 __author__ = 'ipetrash'
 
-from Character import Character
+from Char import Character
 
 
 class Hero(Character):

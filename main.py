@@ -2,7 +2,7 @@ __author__ = 'ipetrash'
 
 # import Story
 import Zoo
-import Character
+import Char
 # import time
 
 # TODO: Добавить модуль теста
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     # h.level = Char.MAX_LEVEL + 100
 
     # Проверка изменения статов при изменении уровня
-    Character.DEBUG_MODE = False  # Убираем вывод в консоль
+    Char.DEBUG_MODE = False  # Убираем вывод в консоль
     print()
     h = Zoo.Hero()
     print(h)
