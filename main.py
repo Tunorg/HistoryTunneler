@@ -4,7 +4,7 @@ __author__ = 'ipetrash'
 import Zoo
 import Char
 # import time
-import CharType
+import Type
 
 
 # TODO: Добавить модуль теста
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     print_test_char(z)
 
     z2 = Zoo.Zombi()
-    z2.type = CharType.SuperZombi()  # Тип персонажа можно динамически менять
+    z2.type = Type.SuperZombi()  # Тип персонажа можно динамически менять
     print_test_char(z2)
 
     g = Zoo.Goblin()

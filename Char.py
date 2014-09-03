@@ -2,7 +2,7 @@ __author__ = 'ipetrash'
 
 from math import floor
 from random import randint, randrange
-from CharType import BaseType
+import Type
 
 
 # Индекс -- уровень, значение -- базовое здоровье для данного уровня
@@ -127,7 +127,7 @@ class BaseCharacter:
         self.hp = self.max_hp
     level = property(get_level, set_level)
 
-    __type = BaseType()
+    __type = Type.BaseType()
     def get_type(self):
         return self.__type
     def set_type(self, value):
