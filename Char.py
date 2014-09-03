@@ -56,10 +56,15 @@ DEBUG_MODE = True
 class BaseCharacter:
     """Общий класс для персонажей."""
 
+    def __init__(self):
+        self.name = "???"
+        self.description = "???"
+
+
     __exp = 0
-    def get_exp(self):
+    def __get_exp(self):
         return self.__exp
-    def set_exp(self, value):
+    def __set_exp(self, value):
         if value < self.exp:
             print("Опыт не может быть отрицательным!")
             return
@@ -87,13 +92,12 @@ class BaseCharacter:
             else:
                 print(" Опыта: {}, уровень: {}, до следующего "
                       "уровня осталось опыта: {}\n".format(self.exp, self.level, EXPS[self.level + 1] - self.exp))
-
-    exp = property(get_exp, set_exp, doc="Текущий набранный опыт персонажа")
+    exp = property(__get_exp, __set_exp, doc="Текущий набранный опыт персонажа")
 
     __level = 1
-    def get_level(self):
+    def __get_level(self):
         return self.__level
-    def set_level(self, value):
+    def __set_level(self, value):
         if self.__level == value:
             if DEBUG_MODE:
                 print("Уровень не изменился")
@@ -120,25 +124,24 @@ class BaseCharacter:
             self.exp = EXPS[self.__level]
 
         # Выполним пересчет статов
-        # self.type.do_calc_stats(self)
         self.update_states()
 
         # После получения нового уровня, персонаж восстанавлиет здоровье до максимального
         self.hp = self.max_hp
-    level = property(get_level, set_level)
+    level = property(__get_level, __set_level)
+
 
     __type = Type.BaseType()
-    def get_type(self):
+    def __get_type(self):
         return self.__type
-    def set_type(self, value):
+    def __set_type(self, value):
         if self.__type == value:
             return
         self.__type = value
 
         # Выполним пересчет статов
-        # self.type.do_calc_stats(self)
         self.update_states()
-    type = property(get_type, set_type)
+    type = property(__get_type, __set_type)
 
 
     def update_states(self):
@@ -147,33 +150,33 @@ class BaseCharacter:
 
 
     __dead = False
-    def get_dead(self):
+    def __get_dead(self):
         return self.__dead
-    def set_dead(self, value):
+    def __set_dead(self, value):
         self.__dead = value
         if self.dead:
             if self.hp != 0:
                 self.hp = 0
             if DEBUG_MODE:
                 print("{} мертв!".format(self.name))
-    dead = property(get_dead, set_dead)
+    dead = property(__get_dead, __set_dead)
 
 
     __max_hp = 0
-    def get_max_hp(self):
+    def __get_max_hp(self):
         return self.__max_hp
-    def set_max_hp(self, value):
+    def __set_max_hp(self, value):
         hp_was_max = self.hp == self.__max_hp
         self.__max_hp = value
         if hp_was_max:
             self.hp = self.__max_hp
-    max_hp = property(get_max_hp, set_max_hp)
+    max_hp = property(__get_max_hp, __set_max_hp)
 
 
     __hp = 0
-    def get_hp(self):
+    def __get_hp(self):
         return self.__hp
-    def set_hp(self, value):
+    def __set_hp(self, value):
         if self.dead and value > 0:
             self.__hp = 0
             if DEBUG_MODE:
@@ -184,7 +187,7 @@ class BaseCharacter:
         if value > self.max_hp:  # Здоровье не может быть больше максимального
             value = self.max_hp
         self.__hp = value
-    hp = property(get_hp, set_hp, doc="Hit points")
+    hp = property(__get_hp, __set_hp, doc="Hit points")
 
 
     atk = 0
@@ -192,22 +195,17 @@ class BaseCharacter:
     vitality = 0
 
     __evasion = 0
-
-    def get_evasion(self):
+    def __get_evasion(self):
         return self.__evasion
-
-    def set_evasion(self, value):
+    def __set_evasion(self, value):
         if value > 100:
             value = 100
         self.__evasion = value
-
-    evasion = property(get_evasion, set_evasion, doc="Шанс уклонения")
+    evasion = property(__get_evasion, __set_evasion, doc="Шанс уклонения")
 
     hit = 0
     luck = 0
 
-    name = "???"
-    description = "???"
 
     # TODO: реализовать использование ap
     # ap = 0  # очки мастерства, используемые для прокачки навыков (Ability Points)
