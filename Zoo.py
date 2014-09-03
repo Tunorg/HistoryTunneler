@@ -17,7 +17,7 @@ import Type
 # g = BaseCharacter(type=Type.Goblin())
 #
 # Или:
-# from Type import Goblin()
+# from Type import Goblin
 # g = BaseCharacter(type=Goblin())
 #
 
