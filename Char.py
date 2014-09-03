@@ -2,7 +2,7 @@ __author__ = 'ipetrash'
 
 from math import floor
 from random import randint, randrange
-from CharType import CharType
+from CharType import BaseType
 
 
 # Индекс -- уровень, значение -- базовое здоровье для данного уровня
@@ -48,12 +48,12 @@ MAX_LEVEL = len(EXPS) - 1
 
 DEBUG_MODE = True
 
-# TODO: Character переименовать в Base
+
 # TODO: Хорошо бы интерфейс или абстракный сделать, чтоб нагляднее выглядел класс персонажа
 # Сейчас же, класс персонажа напоминает вермишель
 
 
-class Character:
+class BaseCharacter:
     """Общий класс для персонажей."""
 
     __exp = 0
@@ -78,7 +78,8 @@ class Character:
 
         # Пока возможно получать уровень
         while has_level_up(self.level, self.__exp):
-            self.level += 1
+            # self.level += 1
+            self.level_up()
 
         if DEBUG_MODE:
             if self.level == MAX_LEVEL:
@@ -86,10 +87,10 @@ class Character:
             else:
                 print(" Опыта: {}, уровень: {}, до следующего "
                       "уровня осталось опыта: {}\n".format(self.exp, self.level, EXPS[self.level + 1] - self.exp))
-    exp = property(get_exp, set_exp)
 
+    exp = property(get_exp, set_exp, doc="Текущий набранный опыт персонажа")
 
-    __level = 0
+    __level = 1
     def get_level(self):
         return self.__level
     def set_level(self, value):
@@ -119,23 +120,30 @@ class Character:
             self.exp = EXPS[self.__level]
 
         # Выполним пересчет статов
-        self.type.do_calc_stats(self)
+        # self.type.do_calc_stats(self)
+        self.update_states()
 
         # После получения нового уровня, персонаж восстанавлиет здоровье до максимального
         self.hp = self.max_hp
     level = property(get_level, set_level)
 
-
-    __type = CharType()
+    __type = BaseType()
     def get_type(self):
         return self.__type
     def set_type(self, value):
         if self.__type == value:
             return
         self.__type = value
+
         # Выполним пересчет статов
-        self.__type.do_calc_stats(self)
+        # self.type.do_calc_stats(self)
+        self.update_states()
     type = property(get_type, set_type)
+
+
+    def update_states(self):
+        """Выполнение пересчета статов"""
+        self.__type.do_calc_stats(self)
 
 
     __dead = False
@@ -182,23 +190,40 @@ class Character:
     atk = 0
     strength = 0
     vitality = 0
-    evasion = 0
+
+    __evasion = 0
+
+    def get_evasion(self):
+        return self.__evasion
+
+    def set_evasion(self, value):
+        if value > 100:
+            value = 100
+        self.__evasion = value
+
+    evasion = property(get_evasion, set_evasion, doc="Шанс уклонения")
+
     hit = 0
     luck = 0
 
     name = "???"
     description = "???"
-    ap = 0  # очки мастерства, используемые для прокачки навыков (Ability Points)
 
+    # TODO: реализовать использование ap
+    # ap = 0  # очки мастерства, используемые для прокачки навыков (Ability Points)
+
+
+    def level_up(self):
+        self.level += 1
 
     def attack_to(self, other):
         """Функция атаки персонажей."""
 
         # Определим попали ли по противнику
         # Hit% = (Luck Атакующего / 2 + Hit Атакующего — Eva Цели — Luck Цели)
-        percent = self.luck / 2 + self.hit - other.evasion - other.luck
-        percent = floor(percent)
-        has_hit = randrange(0, 100) < percent
+        percent = self.luck / 2 + self.hit - other.evasion - other.luck  # Подсчет шанса в процентах, %
+        percent = floor(percent)  # Округление до целого
+        has_hit = randrange(0, 100) < percent  # Эмитация шанса попадания
 
         if DEBUG_MODE:
             print("\nШанс попасть: {}%: {}".format(percent, has_hit))
@@ -207,7 +232,7 @@ class Character:
             # Подсчитаем урон, который нанесем противнику
             # формула взята из (FF7): http://finalfantasy.wikia.com/wiki/Attack_(Command)
             power = self.strength
-            defence = other.vitality
+            defence = other.vitality  # живучесть -- по сути защита
             base_dmg = self.atk + ((self.atk + self.level) / 32) * ((self.atk * self.level) / 32)
             max_dmg = ((power * (512 - defence)) * base_dmg) / (16 * 512)
             dmg = max_dmg * (3841 + randint(0, 255)) / 4096
@@ -220,7 +245,7 @@ class Character:
             has_crit = floor(has_crit)
             has_crit = has_crit >= rnd
 
-            other.hp -= dmg
+            other.hp -= dmg * 2 if has_crit else dmg  # вычесть из текущего здоровья урон
 
             if DEBUG_MODE:
                 if has_crit:
@@ -238,7 +263,9 @@ class Character:
 
 
     def __repr__(self):
-        return ("{} lvl: {} (Тип '{}'), stats: hp: {}/{}, str: {}, atk: {}, "
-                "vit: {}, eva: {}, hit: {}%, luck: {}".format(self.name, self.level, self.type.name, self.hp,
-                                                              self.max_hp, self.strength, self.atk, self.vitality,
-                                                              self.evasion, self.hit, self.luck))
+        return ("{} lvl: {} (общий тип: {}, имя типа: {}, раса: {}), stats: hp: {}/{}, str: {}, atk: {}, "
+                "vit: {}, eva: {}, hit: {}%, luck: {}".format(self.name, self.level, self.type.name_type,
+                                                              self.type.name, self.type.race, self.hp, self.max_hp,
+                                                              self.strength, self.atk, self.vitality, self.evasion,
+                                                              self.hit, self.luck))
+
