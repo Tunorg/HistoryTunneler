@@ -1,4 +1,5 @@
 __author__ = 'ipetrash'
+# TODO: добавить __doc__ с описанием модуля
 
 from Char import BaseCharacter
 import Type

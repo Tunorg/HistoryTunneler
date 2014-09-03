@@ -1,4 +1,5 @@
 __author__ = 'ipetrash'
+# TODO: добавить __doc__ с описанием модуля
 
 # import Story
 import Zoo
@@ -24,6 +25,9 @@ if __name__ == '__main__':
         char.level = 99
         print(char)
 
+    # import BaseType
+    # print(BaseType.__author__)
+    # print(BaseType.__doc__)
 
     h = Zoo.Hero()
     print_test_char(h)
