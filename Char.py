@@ -1,11 +1,12 @@
+"""Char.py: Модуль содержит базовый класс персонажей"""
+
 __author__ = 'ipetrash'
-# TODO: добавить __doc__ с описанием модуля
+
 
 from math import floor
 from random import randint, randrange
 
 from BaseType import BaseType
-
 
 
 # Индекс -- уровень, значение -- базовое здоровье для данного уровня
@@ -50,32 +51,113 @@ MAX_LEVEL = len(EXPS) - 1
 
 
 DEBUG_MODE = True
+DEBUG_MODE_GET_SET = True
+
+class Evasion:
+    def __get__(self, instance, owner):
+        if DEBUG_MODE_GET_SET:
+            print("    __get__: self: {}, instance: {}, owner: {}  "
+                  "value: {}".format(self, type(instance), type(owner), instance.d_evasion))
+
+        return instance.d_evasion
+
+    def __set__(self, instance, value):
+        if DEBUG_MODE_GET_SET:
+            print("  __set__: self: {}, instance: {}, value: {}".format(self, type(instance), value))
+
+        if value > 100:
+            value = 100
+        instance.d_evasion = value
 
 
-# TODO: Хорошо бы интерфейс или абстракный сделать, чтоб нагляднее выглядел класс персонажа
-# Сейчас же, класс персонажа напоминает вермишель
+class MaxHP:
+    def __get__(self, instance, owner):
+        if DEBUG_MODE_GET_SET:
+            print("    __get__: self: {}, instance: {}, owner: {}  "
+                  "value: {}".format(self, type(instance), type(owner), instance.d_max_hp))
+        return instance.d_max_hp
+
+    def __set__(self, instance, value):
+        if DEBUG_MODE_GET_SET:
+            print("  __set__: self: {}, instance: {}, value: {}".format(self, type(instance), value))
+
+        hp_was_max = instance.hp == instance.d_max_hp
+        instance.d_max_hp = value
+        if hp_was_max:
+            instance.hp = instance.d_max_hp
 
 
-class BaseCharacter:
-    """Общий класс для персонажей."""
+class HP:
+    def __get__(self, instance, owner):
+        if DEBUG_MODE_GET_SET:
+            print("    __get__: self: {}, instance: {}, owner: {}  "
+                  "value: {}".format(self, type(instance), type(owner), instance.d_hp))
 
-    def __init__(self):
-        self.name = "???"
-        self.description = "???"
+        return instance.d_hp
+
+    def __set__(self, instance, value):
+        if DEBUG_MODE_GET_SET:
+            print("  __set__: self: {}, instance: {}, "
+                  "value: {}".format(self, type(instance), value))
+
+        if instance.dead and value > 0:
+            instance.d_hp = 0
+
+            if DEBUG_MODE:
+                print("Лечение {0} не принесло эффекта, потому что {0} мертв!".format(instance.name))
+
+        if value < 0:  # Здоровье не может быть меньше 0
+            instance.dead = True
+            value = 0
+
+        if value > instance.max_hp:  # Здоровье не может быть больше максимального
+            value = instance.max_hp
+
+        instance.d_hp = value
 
 
-    __exp = 0
-    def __get_exp(self):
-        return self.__exp
-    def __set_exp(self, value):
-        if value < self.exp:
+class Dead:
+    def __get__(self, instance, owner):
+        if DEBUG_MODE_GET_SET:
+            print("    __get__: self: {}, instance: {}, owner: {}  "
+                  "value: {}".format(self, type(instance), type(owner), instance.d_dead))
+
+        return instance.d_dead
+
+    def __set__(self, instance, value):
+        if DEBUG_MODE_GET_SET:
+            print("  __set__: self: {}, instance: {}, "
+                  "value: {}".format(self, type(instance), value))
+
+        instance.d_dead = value
+        if instance.d_dead:
+            if instance.hp != 0:
+                instance.hp = 0
+
+            # if DEBUG_MODE:
+            #     print("{} мертв!".format(instance.name))
+
+
+class Exp:
+    def __get__(self, instance, owner):
+        if DEBUG_MODE_GET_SET:
+            print("    __get__: self: {}, instance: {}, owner: {} "
+                  "value: {}".format(self, type(instance), type(owner), instance.d_exp))
+
+        return instance.d_exp
+
+    def __set__(self, instance, value):
+        if DEBUG_MODE_GET_SET:
+            print("  __set__: self: {}, instance: {}, value: {}".format(self, type(instance), value))
+
+        if value < instance.d_exp:
             print("Опыт не может быть отрицательным!")
             return
 
         if DEBUG_MODE:
-            print("\nДобавлен опыт: {}".format(value - self.__exp))
+            print("\nДобавлен опыт: {}".format(value - instance.d_exp))
 
-        self.__exp = value
+        instance.d_exp = value
 
         def has_level_up(level, exp):
             if level >= MAX_LEVEL:  # Уровень не может превышать максимальный
@@ -85,137 +167,120 @@ class BaseCharacter:
             return False
 
         # Пока возможно получать уровень
-        while has_level_up(self.level, self.__exp):
-            # self.level += 1
-            self.level_up()
+        while has_level_up(instance.level, instance.d_exp):
+            instance.level_up()
 
         if DEBUG_MODE:
-            if self.level == MAX_LEVEL:
+            if instance.level == MAX_LEVEL:
                 print(" Достигнут максимальный уровень: {}".format(MAX_LEVEL))
             else:
                 print(" Опыта: {}, уровень: {}, до следующего "
-                      "уровня осталось опыта: {}\n".format(self.exp, self.level, EXPS[self.level + 1] - self.exp))
-    exp = property(__get_exp, __set_exp, doc="Текущий набранный опыт персонажа")
+                      "уровня осталось опыта: {}\n".format(instance.d_exp, instance.level,
+                                                           EXPS[instance.level + 1] - instance.d_exp))
 
-    __level = 1
-    def __get_level(self):
-        return self.__level
-    def __set_level(self, value):
-        if self.__level == value:
+class Level:
+    def __get__(self, instance, owner):
+        if DEBUG_MODE_GET_SET:
+            print("    __get__: self: {}, instance: {}, owner: {}  "
+                  "value: {}".format(self, type(instance), type(owner), instance.d_level))
+
+        return instance.d_level
+
+    def __set__(self, instance, value):
+        if DEBUG_MODE_GET_SET:
+            print("  __set__: self: {}, instance: {}, "
+                  "value: {}".format(self, type(instance), value))
+
+        if instance.d_level == value:
             if DEBUG_MODE:
                 print("Уровень не изменился")
             return
 
-        if self.__level > value:
+        if instance.d_level > value:
             if DEBUG_MODE:
                 print("\nЧто за черт? Уровень не может уменьшиться: "
-                      "текущий уровень {}, устанавливаемый: {}\n".format(self.__level, value))
+                      "текущий уровень {}, устанавливаемый: {}\n".format(instance.d_level, value))
             return
 
-        self.__level = value
-        if self.__level > MAX_LEVEL:
-            self.__level = MAX_LEVEL  # Уровень не может быть выше максимального, потому уменьшим до MAX_LEVEL
+        instance.d_level = value
+        if instance.d_level > MAX_LEVEL:
+            instance.d_level = MAX_LEVEL  # Уровень не может быть выше максимального, потому уменьшим до MAX_LEVEL
+
             if DEBUG_MODE:
-                print(("Превышение максимального уровня {} ({} lvl{})!".format(MAX_LEVEL, self.name, self.level)))
+                print(("Превышение максимального уровня {} ({} lvl{})!".format(MAX_LEVEL, instance.name, instance.d_level)))
 
         # Нет смысла показывать данное сообщение, если у нас начальный уровень
         if DEBUG_MODE:
-            if self.__level > 1:
-                print(" Уровень повысился! Уровень:", self.__level)
+            if instance.d_level > 1:
+                print(" Уровень повысился! Уровень:", instance.d_level)
 
-        if self.exp < EXPS[self.__level]:  # "подгонка" опыта под уровень
-            self.exp = EXPS[self.__level]
-
-        # Выполним пересчет статов
-        self.update_states()
-
-        # После получения нового уровня, персонаж восстанавлиет здоровье до максимального
-        self.hp = self.max_hp
-    level = property(__get_level, __set_level)
-
-    __type = BaseType()
-    def __get_type(self):
-        return self.__type
-    def __set_type(self, value):
-        if self.__type == value:
-            return
-        self.__type = value
+        if instance.exp < EXPS[instance.d_level]:  # "подгонка" опыта под уровень
+            instance.exp = EXPS[instance.d_level]
 
         # Выполним пересчет статов
+        # Пересчет статов также восстановит здоровье до максимального
+        instance.update_states()
+
+
+class DType:
+    def __get__(self, instance, owner):
+        if DEBUG_MODE_GET_SET:
+                print("    __get__: self: {}, instance: {}, owner: {} "
+                      "value: {}".format(self, type(instance), type(owner), instance.d_type))
+
+        return instance.d_type
+
+    def __set__(self, instance, value):
+        if DEBUG_MODE_GET_SET:
+            print("  __set__: self: {}, instance: {}, value: {}".format(self, type(instance), value))
+
+        if instance.d_type != value:
+            instance.d_type = value
+
+            # Выполним пересчет статов
+            instance.update_states()
+
+
+# TODO: Указание уровня в конструкторе
+class BaseCharacter:
+    """Общий класс для персонажей."""
+
+    def __init__(self, char_type=BaseType()):
+        self.name = None
+        self.desc = None
+
+        self.d_evasion = 0
+        self.d_max_hp = 0
+        self.d_hp = 0
+        self.d_dead = False
+        self.d_exp = 0
+        self.d_level = 1
+        self.d_type = char_type
+
         self.update_states()
-    type = property(__get_type, __set_type)
-
-
-    def update_states(self):
-        """Выполнение пересчета статов"""
-        self.__type.do_calc_stats(self)
-
-
-    __dead = False
-    def __get_dead(self):
-        return self.__dead
-    def __set_dead(self, value):
-        self.__dead = value
-        if self.dead:
-            if self.hp != 0:
-                self.hp = 0
-            if DEBUG_MODE:
-                print("{} мертв!".format(self.name))
-    dead = property(__get_dead, __set_dead)
-
-
-    __max_hp = 0
-    def __get_max_hp(self):
-        return self.__max_hp
-    def __set_max_hp(self, value):
-        hp_was_max = self.hp == self.__max_hp
-        self.__max_hp = value
-        if hp_was_max:
-            self.hp = self.__max_hp
-    max_hp = property(__get_max_hp, __set_max_hp)
-
-
-    __hp = 0
-    def __get_hp(self):
-        return self.__hp
-    def __set_hp(self, value):
-        if self.dead and value > 0:
-            self.__hp = 0
-            if DEBUG_MODE:
-                print("Лечение {0} не принесло эффекта, потому что {0} мертв!".format(self.name))
-        if value < 0:  # Здоровье не может быть меньше 0
-            self.dead = True
-            value = 0
-        if value > self.max_hp:  # Здоровье не может быть больше максимального
-            value = self.max_hp
-        self.__hp = value
-    hp = property(__get_hp, __set_hp, doc="Hit points")
 
 
     atk = 0
     strength = 0
     vitality = 0
-
-    __evasion = 0
-    def __get_evasion(self):
-        return self.__evasion
-    def __set_evasion(self, value):
-        if value > 100:
-            value = 100
-        self.__evasion = value
-    evasion = property(__get_evasion, __set_evasion, doc="Шанс уклонения")
-
+    evasion = Evasion()
     hit = 0
     luck = 0
+    max_hp = MaxHP()
+    hp = HP()
+    dead = Dead()
+    exp = Exp()
+    level = Level()
+    type = DType()
 
-
-    # TODO: реализовать использование ap
-    # ap = 0  # очки мастерства, используемые для прокачки навыков (Ability Points)
-
+    def update_states(self):
+        """Выполнение пересчета статов"""
+        self.d_type.do_calc_stats(self)
 
     def level_up(self):
         self.level += 1
 
+    # TODO: добавление опыта при убийстве противника
     def attack_to(self, other):
         """Функция атаки персонажей."""
 
@@ -226,7 +291,10 @@ class BaseCharacter:
         has_hit = randrange(0, 100) < percent  # Эмитация шанса попадания
 
         if DEBUG_MODE:
-            print("\nШанс попасть: {}%: {}".format(percent, has_hit))
+            print("{}({}) хочет ударить {}({}) "
+                  "(шанс попасть: {}%).".format(self.name, self.level,
+                                                other.name, other.level,
+                                                percent))
 
         if has_hit:
             # Подсчитаем урон, который нанесем противнику
@@ -245,27 +313,25 @@ class BaseCharacter:
             has_crit = floor(has_crit)
             has_crit = has_crit >= rnd
 
-            other.hp -= dmg * 2 if has_crit else dmg  # вычесть из текущего здоровья урон
+            dmg = dmg * 2 if has_crit else dmg
+            other.hp -= dmg  # вычесть из текущего здоровья урон
 
             if DEBUG_MODE:
-                if has_crit:
-                    print("{}({}) нанес {}({}) критический удар: "
-                          "{} урон!".format(self.name, self.level, other.name, other.level, dmg * 2), end="")
+                print(" {}({}) нанес {}({}){}: "
+                      "{} урон!".format(self.name, self.level, other.name, other.level,
+                                        " критический удар" if has_crit else "",
+                                        dmg))
+                if other.dead:
+                    print(" {} мертв!".format(other.name))
                 else:
-                    print("{}({}) нанес {}({})"
-                          " {} урона!".format(self.name, self.level, other.name, other.level, dmg), end="")
-
-                print(" Осталось hp: {}".format(other.hp))
-
+                    print(" Осталось hp: {}".format(other.hp))
         else:
             if DEBUG_MODE:
-                print("{}({}) промахнулся по {}({})!".format(self.name, self.level, other.name, other.level))
-
+                print(" {}({}) промахнулся по {}({})!".format(self.name, self.level, other.name, other.level))
 
     def __repr__(self):
         return ("{} lvl: {} (общий тип: {}, имя типа: {}, раса: {}), stats: hp: {}/{}, str: {}, atk: {}, "
-                "vit: {}, eva: {}, hit: {}%, luck: {}".format(self.name, self.level, self.type.name_type,
+                "vit: {}, eva: {}%, hit: {}%, luck: {}".format(self.name, self.level, self.type.name_type,
                                                               self.type.name, self.type.race, self.hp, self.max_hp,
                                                               self.strength, self.atk, self.vitality, self.evasion,
                                                               self.hit, self.luck))
-

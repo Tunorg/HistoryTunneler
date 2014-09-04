@@ -1,62 +1,55 @@
+"""main.py: Запуск приложения начинается с этого модуля"""
+
 __author__ = 'ipetrash'
-# TODO: добавить __doc__ с описанием модуля
+
 
 # import Story
 import Zoo
 import Char
+# import Type
 # import time
-import Type
 
 
 # TODO: Добавить модуль теста
 
+
 if __name__ == '__main__':
-    # Проверка изменения статов при изменении уровня
+    # Вывод состояния персонажей и показ изменения статов при изменении уровня
     Char.DEBUG_MODE = False  # Убираем вывод в консоль
+    Char.DEBUG_MODE_GET_SET = False  # Убираем вывод в консоль информацию о set и get методах дескрипторах
 
-    def print_test_char(char):
-        print()
-        print(char)
-        # print("id: {}".format(hex(id(char))))  # hex-значение объекта
-        char.level_up()
-        print(char)
-        char.level_up()
-        print(char)
-        char.level = 99
-        print(char)
-
-    # import BaseType
-    # print(BaseType.__author__)
-    # print(BaseType.__doc__)
 
     h = Zoo.Hero()
-    print_test_char(h)
+    print(h)
 
     z = Zoo.Zombi()
-    print_test_char(z)
+    z.level = 3  # Пусть у зомби будет 3-й уровень
+    print(z)
 
-    z2 = Zoo.Zombi()
-    z2.type = Type.SuperZombi()  # Тип персонажа можно динамически менять
-    print_test_char(z2)
+    Char.DEBUG_MODE = True
+    c = 1
+    while not h.dead or not z.dead:
+        print()
+        print("Раунд {}".format(c))
+        print("{}(hp: {})  VS  {} (hp: {})".format(h.name, h.hp, z.name, z.hp), end="\n ")
 
-    g = Zoo.Goblin()
-    print_test_char(g)
+        h.attack_to(z)
+        if z.dead:
+            break
+        z.attack_to(h)
 
+        c += 1
+        # time.sleep(1)
+        input()
 
-    # Проверка уворота зомби, при нулевой удаче и шанса уклонения и при 100% точности противника
-    # z = Zoo.Zombi()
-    # z.type.b_luck = 0
-    # z.level = Char.MAX_LEVEL
-    # z.update_states()
-    # print(z)
-    #
-    # g = Zoo.Goblin()
-    # g.type.b_hit = 100
-    # g.update_states()
-    #
-    # Char.DEBUG_MODE = True
-    #
-    # for i in range(100):
-    # g.attack_to(z)
-    #     if z.dead:
-    #         break
+    print("\n")
+    if h.dead:
+        print("Ты умер! Вот ты лах!")
+
+    elif z.dead:
+        print("Поздравляю чувак! Ты убил зомби!!")
+        h.exp += z.exp
+
+    print("Бой занял {} раундов.".format(c))
+
+    Char.DEBUG_MODE = False

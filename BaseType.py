@@ -1,5 +1,7 @@
+"""BaseType.py: Модуль содержит типы персонажей"""
+
 __author__ = 'ipetrash'
-__doc__ = "Модуль содержит типы персонажей"
+
 
 from math import floor
 
@@ -10,10 +12,10 @@ class BaseType:
     """Базовый класс типов персонажей"""
 
     def __init__(self):
-        self.name = "???"  # конкретное название: name_type: гуманоид, но name может быть человек, орк, эльф и т.п.
-        self.name_type = "???"  # например, нежить, люди, звери
-        self.description = "???"  # короткое описание типа персонажа
-        self.race = "???"  # раса: например, люди, орки, эльфы, нежить, драконы и т.п.
+        self.name = None  # конкретное название: name_type: гуманоид, но name может быть человек, орк, эльф и т.п.
+        self.name_type = None  # например, нежить, люди, звери
+        self.desc = None  # короткое описание типа персонажа
+        self.race = None  # раса: например, люди, орки, эльфы, нежить, драконы и т.п.
 
         # базовые статы
         self.b_atk = 5
@@ -43,6 +45,9 @@ class BaseType:
         c.max_hp = floor(c.strength * Char.HPMOD[c.level] / 50)
         c.hp = c.max_hp
 
+        c.name = self.name
+        c.desc = self.desc
+
 
 # #### Основные типы персонажей #####
 # Ссылка: http://ru.rpg.wikia.com/wiki/Тип_существа
@@ -51,7 +56,7 @@ class Plants(BaseType):
     """Тип Растения"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Растения"
         self.desc = ("Обычные растения, а также монстры растительного происхождения. Для игровых целей "
@@ -63,7 +68,7 @@ class Beast(BaseType):
     """Тип Звери"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Звери"
         self.desc = ("Естественные существа фентезийных миров. Обычные животные, "
@@ -75,7 +80,7 @@ class Humanoids(BaseType):
     """Тип Гуманоиды"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Гуманоиды"
         self.desc = ("Представители типовых разумных видов среднего "
@@ -95,7 +100,7 @@ class Giants(BaseType):
     """Тип Великаны (Гиганты)"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Великаны"
         self.desc = ("Существа, подобные крупным гуманоидам, но образующие отдельную группу характерных "
@@ -106,7 +111,7 @@ class Fey(BaseType):
     """Тип Феи"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Феи"
         self.desc = "Тесно связанные с силами природы существа, имеющие обычно магические способности."
@@ -116,7 +121,7 @@ class Oozes(BaseType):
     """Тип Слизи"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Слизи"
         self.desc = "Желеобразные и текучие существа без чёткой формы."
@@ -126,7 +131,7 @@ class Constructs(BaseType):
     """Тип Конструкторы"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Конструкторы"
         self.desc = "Механизмы, големы и иные создания, создаваемые искусственно из неодушевлённой материи."
@@ -136,7 +141,7 @@ class Aberrations(BaseType):
     """Тип Отродья"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Отродья"
         self.desc = ("Чуждые миру существа, обладающие крайне нечеловеческим разумом и неестественным "
@@ -148,7 +153,7 @@ class Undead(BaseType):
     """Тип Нежить"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Нежить"
         self.desc = "Оживлённые останки существ или неупокоенные духи"
@@ -160,7 +165,7 @@ class Dragons(BaseType):
     """Тип Драконы"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Драконы"
         self.desc = "Все разновидности одного из характернейших монстров игры и связанных с ними существ."
@@ -170,7 +175,7 @@ class Celestials(BaseType):
     """Тип Небожители"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Небожители"
         self.desc = "Существа, характерные для Верхних планов, ангельские создания."
@@ -180,7 +185,7 @@ class Fiends(BaseType):
     """Тип Демоны"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Демоны"
         self.desc = "Их аналог для Нижних планов, всевозможные создания зла."
@@ -191,7 +196,7 @@ class Elementals(BaseType):
     """Тип Элементали"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Элементали"
         self.desc = "Стихийные создания."
@@ -201,7 +206,7 @@ class Monstrosities(BaseType):
     """Тип Чудовища"""
 
     def __init__(self):
-        BaseType.__init__(self)
+        super().__init__()
 
         self.name_type = "Чудовища"
         self.desc = "Результаты магических экспериментов, уникальные монстры, жертвы проклятий и пр."
