@@ -1,4 +1,4 @@
-"""Char.py: Модуль содержит базовый класс персонажей"""
+"""Personage.py: Модуль содержит базовый класс персонажей"""
 
 __author__ = 'ipetrash'
 
@@ -241,7 +241,7 @@ class DType:
             instance.update_states()
 
 
-class BaseCharacter:
+class Personage:
     """Общий класс для персонажей."""
 
     def __init__(self, type=BaseType()):
@@ -255,9 +255,7 @@ class BaseCharacter:
         self.d_exp = 0
         self.d_level = 1
         self.d_type = type
-
         self.update_states()
-
 
     atk = 0
     strength = 0

@@ -3,32 +3,32 @@
 __author__ = 'ipetrash'
 
 
-from Char import BaseCharacter
+from Char import Personage
 import Type
 
 
-class Hero(BaseCharacter):
+class Hero(Personage):
     """Класс Герой"""
 
     def __init__(self):
         super().__init__(type=Type.Hero())
 
 
-class Zombi(BaseCharacter):
+class Zombi(Personage):
     """Класс Зомби."""
 
     def __init__(self):
         super().__init__(type=Type.Zombi())
 
 
-class Goblin(BaseCharacter):
+class Goblin(Personage):
     """Класс Гоблин."""
 
     def __init__(self):
         super().__init__(type=Type.Goblin())
 
 
-class Ork(BaseCharacter):
+class Ork(Personage):
     """Класс Орк."""
 
     def __init__(self):
