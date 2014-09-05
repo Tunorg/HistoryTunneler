@@ -11,25 +11,25 @@ class Hero(Personage):
     """Класс Герой"""
 
     def __init__(self):
-        super().__init__(type=Type.Hero())
+        super().__init__(ptype=Type.Hero())
 
 
 class Zombi(Personage):
     """Класс Зомби."""
 
     def __init__(self):
-        super().__init__(type=Type.Zombi())
+        super().__init__(ptype=Type.Zombi())
 
 
 class Goblin(Personage):
     """Класс Гоблин."""
 
     def __init__(self):
-        super().__init__(type=Type.Goblin())
+        super().__init__(ptype=Type.Goblin())
 
 
 class Ork(Personage):
     """Класс Орк."""
 
     def __init__(self):
-        super().__init__(type=Type.Ork())
+        super().__init__(ptype=Type.Ork())

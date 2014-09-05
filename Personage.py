@@ -244,7 +244,7 @@ class DType:
 class Personage:
     """Общий класс для персонажей."""
 
-    def __init__(self, type=BaseType()):
+    def __init__(self, ptype=BaseType()):
         self.name = None
         self.desc = None
 
@@ -254,7 +254,7 @@ class Personage:
         self.d_dead = False
         self.d_exp = 0
         self.d_level = 1
-        self.d_type = type
+        self.d_type = ptype
         self.update_states()
 
         # TODO: добавление опыта при убийстве противника

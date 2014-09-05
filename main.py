@@ -3,10 +3,8 @@
 __author__ = 'ipetrash'
 
 
-# import Story
 import ClassPersonage
 import Personage
-# import Type
 import time
 
 
