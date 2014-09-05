@@ -241,11 +241,10 @@ class DType:
             instance.update_states()
 
 
-# TODO: Указание уровня в конструкторе
 class BaseCharacter:
     """Общий класс для персонажей."""
 
-    def __init__(self, char_type=BaseType()):
+    def __init__(self, type=BaseType()):
         self.name = None
         self.desc = None
 
@@ -255,7 +254,7 @@ class BaseCharacter:
         self.d_dead = False
         self.d_exp = 0
         self.d_level = 1
-        self.d_type = char_type
+        self.d_type = type
 
         self.update_states()
 
