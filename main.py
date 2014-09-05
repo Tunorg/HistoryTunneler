@@ -5,15 +5,15 @@ __author__ = 'ipetrash'
 
 # import Story
 import Zoo
-import Char
+import Personage
 # import Type
 import time
 
 
 if __name__ == '__main__':
     # Вывод состояния персонажей и показ изменения статов при изменении уровня
-    Char.DEBUG_MODE = False  # Убираем вывод в консоль
-    Char.DEBUG_MODE_GET_SET = False  # Убираем вывод в консоль информацию о set и get методах дескрипторах
+    Personage.DEBUG_MODE = False  # Убираем вывод в консоль
+    Personage.DEBUG_MODE_GET_SET = False  # Убираем вывод в консоль информацию о set и get методах дескрипторах
 
     gua_badan = Zoo.Ork()
     gua_badan.name = "Большой Гуа-бадан"

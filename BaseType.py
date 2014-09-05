@@ -4,8 +4,7 @@ __author__ = 'ipetrash'
 
 
 from math import floor
-
-import Char
+import Personage
 
 
 class BaseType:
@@ -42,7 +41,7 @@ class BaseType:
 
         # FF9: http://finalfantasy.wikia.com/wiki/HP
         # [Str * HPMod(Level) / 50]
-        c.max_hp = floor(c.strength * Char.HPMOD[c.level] / 50)
+        c.max_hp = floor(c.strength * Personage.HPMOD[c.level] / 50)
         c.hp = c.max_hp
 
         c.name = self.name if not c.name else c.name
