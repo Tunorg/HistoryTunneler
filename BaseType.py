@@ -45,8 +45,8 @@ class BaseType:
         c.max_hp = floor(c.strength * Char.HPMOD[c.level] / 50)
         c.hp = c.max_hp
 
-        c.name = self.name
-        c.desc = self.desc
+        c.name = self.name if not c.name else c.name
+        c.desc = self.desc if not c.desc else c.desc
 
 
 # #### Основные типы персонажей #####
