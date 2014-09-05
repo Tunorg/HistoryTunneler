@@ -7,7 +7,7 @@ __author__ = 'ipetrash'
 import Zoo
 import Char
 # import Type
-# import time
+import time
 
 
 # TODO: Добавить модуль теста
@@ -28,6 +28,8 @@ if __name__ == '__main__':
 
     Char.DEBUG_MODE = True
     c = 1
+
+    t = time.time()
     while not h.dead or not z.dead:
         print()
         print("Раунд {}".format(c))
@@ -36,11 +38,14 @@ if __name__ == '__main__':
         h.attack_to(z)
         if z.dead:
             break
+
         z.attack_to(h)
+        if h.dead:
+            break
 
         c += 1
-        # time.sleep(1)
-        input()
+        time.sleep(1.5)  # Ждем 1.5 секунды
+        # input()
 
     print("\n")
     if h.dead:
@@ -50,6 +55,6 @@ if __name__ == '__main__':
         print("Поздравляю чувак! Ты убил зомби!!")
         h.exp += z.exp
 
-    print("Бой занял {} раундов.".format(c))
+    print("Бой занял {} раундов и {:.1f} секунд.".format(c, time.time() - t))
 
     Char.DEBUG_MODE = False
