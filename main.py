@@ -19,6 +19,9 @@ if __name__ == '__main__':
     # print(gua_badan)
     # print("{}: '{}'".format(gua_badan.name, gua_badan.desc))
 
+    # TODO: добавить бой командами с выбором действий
+    #
+
     h = ClassPersonage.Hero()
     print(h)
 
