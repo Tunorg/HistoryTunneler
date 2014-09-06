@@ -21,6 +21,7 @@ if __name__ == '__main__':
 
     # TODO: добавить бой командами с выбором действий
     #
+    #
 
     h = ClassPersonage.Hero()
     print(h)
