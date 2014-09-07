@@ -10,7 +10,13 @@ import time
 
 def sandbox(g1, g2):
     print("Group1: {}".format(g1))
+    for i, p in enumerate(g1):
+        print("{}. {}".format(i + 1, "{}(lvl {}): {}".format(p.name, p.level, type(p))))
+
+    print()
     print("Group2: {}".format(g2))
+    for i, p in enumerate(g2):
+        print("{}. {}".format(i + 1, "{}(lvl {}): {}".format(p.name, p.level, type(p))))
 
 
 if __name__ == '__main__':
