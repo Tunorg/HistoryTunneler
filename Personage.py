@@ -241,6 +241,9 @@ class DType:
             instance.update_states()
 
 
+# TODO: думаю есть смысл переименовать тот модуль в BasePersonage.
+
+
 class Personage:
     """Общий класс для персонажей."""
 
@@ -258,27 +261,23 @@ class Personage:
         self.update_states()
 
         # TODO: добавление опыта при убийстве противника
-        # TODO: может замутить формулу, в которой будут завязаны статы и уровень противника
-        # и наш текущий уровень?
+        # TODO: может замутить формулу, в которой будут завязаны статы и уровень противника и наш текущий уровень?
         self.gives_exp = 0  # содержит количество опыта, которая даст персонаж, когда его убьют
 
     atk = 0
     strength = 0
     vitality = 0
     evasion = Evasion()
+    speed = 0  # TODO: установить скорость в BaseType и его наследниках
     hit = 0
     luck = 0
+
     max_hp = MaxHP()
     hp = HP()
     dead = Dead()
     exp = Exp()
     level = Level()
     type = DType()
-    # TODO: добавить стат speed
-    # Speed (Spd) Скорость персонажа. Напрямую влияет на интенсивность действий героя в бою. Чем сильнее развит
-    # этот параметр, тем чаще будет получать свой ход герой в поединках с врагами. Это преимущество, в
-    # свою очередь, даёт возможность нанести противнику первый удар, а в длительных сражениях позволяет
-    # увеличить количество произведённых действий
 
     def update_states(self):
         """Выполнение пересчета статов"""
@@ -338,7 +337,7 @@ class Personage:
 
     def __repr__(self):
         return ("{} lvl: {} (общий тип: {}, имя типа: {}, раса: {}), stats: hp: {}/{}, str: {}, atk: {}, "
-                "vit: {}, eva: {}%, hit: {}%, luck: {}".format(self.name, self.level, self.type.name_type,
+                "vit: {}, spd: {}. eva: {}%, hit: {}%, luck: {}".format(self.name, self.level, self.type.name_type,
                                                               self.type.name, self.type.race, self.hp, self.max_hp,
-                                                              self.strength, self.atk, self.vitality, self.evasion,
-                                                              self.hit, self.luck))
+                                                              self.strength, self.atk, self.vitality, self.speed,
+                                                              self.evasion, self.hit, self.luck))
