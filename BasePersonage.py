@@ -1,4 +1,4 @@
-"""Personage.py: Модуль содержит базовый класс персонажей"""
+"""BasePersonage.py: Модуль содержит базовый класс персонажей"""
 
 __author__ = 'ipetrash'
 
@@ -49,9 +49,9 @@ EXPS = [
 # Максимальный уровень
 MAX_LEVEL = len(EXPS) - 1
 
-
 DEBUG_MODE = True
 DEBUG_MODE_GET_SET = True
+
 
 class Evasion:
     def __get__(self, instance, owner):
@@ -239,9 +239,6 @@ class DType:
 
             # Выполним пересчет статов
             instance.update_states()
-
-
-# TODO: думаю есть смысл переименовать тот модуль в BasePersonage.
 
 
 class Personage:
