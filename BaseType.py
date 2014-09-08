@@ -37,6 +37,8 @@ class BaseType:
         c.strength = floor(self.b_strength + self.m_strength * c.level)
         c.vitality = floor(self.b_vitality + self.m_vitality * c.level)
         c.speed = self.b_speed
+        # TODO: мне кажется, что стат скорость должен увеличивать уклонение
+        # (например, +1 за каждые 5 единиц скорости)
         c.evasion = self.b_evasion
         c.hit = self.b_hit
         c.luck = self.b_luck

@@ -5,7 +5,7 @@ __author__ = 'ipetrash'
 
 import ClassPersonage
 import BasePersonage as bp
-import time
+# import time
 
 
 def sandbox(g1, g2):
@@ -55,11 +55,8 @@ if __name__ == '__main__':
     h = ClassPersonage.Hero()
 
     z1 = ClassPersonage.Zombi()
-
     z2 = ClassPersonage.Zombi()
-
     z3 = ClassPersonage.Goblin()
-
     z4 = ClassPersonage.Ork()
 
     g1 = [h]
@@ -67,9 +64,20 @@ if __name__ == '__main__':
     sandbox(g1, g2)
 
 
+    # # Изменение статов с уровнем
     # h = ClassPersonage.Hero()
     # print(h)
-    #
+    # h.level = 10
+    # print(h)
+    # h.level += 10
+    # print(h)
+    # h.level += 10
+    # print(h)
+    # h.level = bp.MAX_LEVEL
+    # print(h)
+
+
+    # h = ClassPersonage.Hero()
     # z = ClassPersonage.Zombi()
     # z.level = 3  # Пусть у зомби будет 3-й уровень
     # print(z)

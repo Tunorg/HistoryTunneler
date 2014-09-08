@@ -194,11 +194,12 @@ class Level:
                 print("Уровень не изменился")
             return
 
-        if instance.d_level > value:
-            if DEBUG_MODE:
-                print("\nЧто за черт? Уровень не может уменьшиться: "
-                      "текущий уровень {}, устанавливаемый: {}\n".format(instance.d_level, value))
-            return
+        # TODO: возможно, эта проверка лишняя...
+        # if instance.d_level > value:
+        #     if DEBUG_MODE:
+        #         print("\nЧто за черт? Уровень не может уменьшиться: "
+        #               "текущий уровень {}, устанавливаемый: {}\n".format(instance.d_level, value))
+        #     return
 
         instance.d_level = value
         if instance.d_level > MAX_LEVEL:
