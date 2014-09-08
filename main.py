@@ -4,7 +4,7 @@ __author__ = 'ipetrash'
 
 
 import ClassPersonage
-import Personage
+import BasePersonage as bp
 import time
 
 
@@ -47,8 +47,8 @@ def sandbox(g1, g2):
 
 if __name__ == '__main__':
     # Вывод состояния персонажей и показ изменения статов при изменении уровня
-    Personage.DEBUG_MODE = False  # Убираем вывод в консоль
-    Personage.DEBUG_MODE_GET_SET = False  # Убираем вывод в консоль информацию о set и get методах дескрипторах
+    bp.DEBUG_MODE = False  # Убираем вывод в консоль
+    bp.DEBUG_MODE_GET_SET = False  # Убираем вывод в консоль информацию о set и get методах дескрипторах
 
 
     # TODO: добавить бой командами с выбором действий

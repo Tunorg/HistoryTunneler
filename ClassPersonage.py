@@ -3,7 +3,7 @@
 __author__ = 'ipetrash'
 
 
-from Personage import Personage
+from BasePersonage import Personage
 import Type
 
 
