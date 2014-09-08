@@ -36,6 +36,7 @@ class Zombi(BaseType.Undead):
         self.desc = "Когда-то это было живым существом."
 
         self.b_evasion = 0  # Зомби медленные и неуклюжие, потому не умеют уклоняться
+        self.b_speed = 6
         self.b_hit = 85  # Зомби сложно попасть
 
 
@@ -46,7 +47,9 @@ class SuperZombi(Zombi):
         super().__init__()
 
         self.name = "Зомби-Чемпион"
-    
+
+        self.b_speed *= 1.2
+
         # Чемпион-зомби будет сильнее обычного зомби
         self.m_atk *= 1.5
         self.m_strength *= 1.5
@@ -74,6 +77,7 @@ class Hero(Human):
         self.b_atk = 10
         self.b_strength = 8
         self.b_hit = 100
+        self.b_speed = 15
         self.b_evasion = 10
     
         self.m_atk = 10
@@ -108,6 +112,7 @@ class Goblin(BaseType.Humanoids):
         self.b_atk = 2
         self.b_strength = 2
         self.b_vitality = 1
+        self.b_speed = 9
         self.b_evasion = 7
 
 
@@ -144,4 +149,5 @@ class Ork(BaseType.Humanoids):
         self.b_atk = 8
         self.b_strength = 8
         self.b_vitality = 8
+        self.b_speed = 8
         self.b_evasion = 5

@@ -53,19 +53,17 @@ if __name__ == '__main__':
 
     # TODO: добавить бой командами с выбором действий
     h = ClassPersonage.Hero()
-    h.speed = 15
 
     z1 = ClassPersonage.Zombi()
-    z1.speed = 8
 
     z2 = ClassPersonage.Zombi()
-    z2.speed = 6
 
     z3 = ClassPersonage.Goblin()
-    z3.speed = 9
+
+    z4 = ClassPersonage.Ork()
 
     g1 = [h]
-    g2 = [z1, z2, z3]
+    g2 = [z1, z2, z3, z4]
     sandbox(g1, g2)
 
 

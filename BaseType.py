@@ -21,6 +21,7 @@ class BaseType:
         self.b_strength = 5
         self.b_vitality = 5
         self.b_evasion = 5
+        self.b_speed = 8
         self.b_hit = 95
         self.b_luck = 5
 
@@ -35,6 +36,7 @@ class BaseType:
         c.atk = floor(self.b_atk + self.m_atk * c.level)
         c.strength = floor(self.b_strength + self.m_strength * c.level)
         c.vitality = floor(self.b_vitality + self.m_vitality * c.level)
+        c.speed = self.b_speed
         c.evasion = self.b_evasion
         c.hit = self.b_hit
         c.luck = self.b_luck
@@ -84,6 +86,8 @@ class Humanoids(BaseType):
         self.name_type = "Гуманоиды"
         self.desc = ("Представители типовых разумных видов среднего "
                      "фентези-мира: эльфы, орки, люди и подобные существа.")
+
+        self.b_speed = 10
 
     def do_calc_stats(self, c):
         """Переопределенная функция выполняет подсчет статов гуманоидов"""

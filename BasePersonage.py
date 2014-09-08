@@ -6,8 +6,6 @@ __author__ = 'ipetrash'
 from math import floor
 from random import randint, randrange
 
-from BaseType import BaseType
-
 
 # Индекс -- уровень, значение -- базовое здоровье для данного уровня
 # Первый индекс 0, всегда будет игнорироваться (т.к. уровень начинается с 1)
@@ -241,6 +239,9 @@ class DType:
             instance.update_states()
 
 
+from BaseType import BaseType
+
+
 class Personage:
     """Общий класс для персонажей."""
 
@@ -265,7 +266,7 @@ class Personage:
     strength = 0
     vitality = 0
     evasion = Evasion()
-    speed = 0  # TODO: установить скорость в BaseType и его наследниках
+    speed = 0
     hit = 0
     luck = 0
 
