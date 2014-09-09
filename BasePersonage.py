@@ -173,8 +173,8 @@ class Exp:
                 print(" Достигнут максимальный уровень: {}".format(MAX_LEVEL))
             else:
                 print(" Опыта: {}, уровень: {}, до следующего "
-                      "уровня осталось опыта: {}\n".format(instance.d_exp, instance.level,
-                                                           EXPS[instance.level + 1] - instance.d_exp))
+                      "уровня осталось опыта: {}\n".format(instance.d_exp, instance.level, instance.need_exp()))
+
 
 class Level:
     def __get__(self, instance, owner):
@@ -193,13 +193,6 @@ class Level:
             if DEBUG_MODE:
                 print("Уровень не изменился")
             return
-
-        # TODO: возможно, эта проверка лишняя...
-        # if instance.d_level > value:
-        #     if DEBUG_MODE:
-        #         print("\nЧто за черт? Уровень не может уменьшиться: "
-        #               "текущий уровень {}, устанавливаемый: {}\n".format(instance.d_level, value))
-        #     return
 
         instance.d_level = value
         if instance.d_level > MAX_LEVEL:
@@ -334,9 +327,29 @@ class Personage:
             if DEBUG_MODE:
                 print(" {}({}) промахнулся по {}({})!".format(self.name, self.level, other.name, other.level))
 
+    def exp_next_level(self):
+        """Функция возвращает предел опыта следующего уровня"""
+        if self.level != MAX_LEVEL:  # Если текущий уровень не максимальный
+            # возвращаем предел количества опыта для получения следующего уровня
+            return EXPS[self.level + 1]
+        else:
+            # персонаж достиг максимального уровня, потому получение опыта через
+            # таблицу опыта не имеет смысла, т.к. текущий набранный опыт и будет равен
+            # значению таблицы для последнего уровеня
+            return self.exp
+
+    def need_exp(self):
+        """Функция возвращает количество опыта, оставшееся до следующего уровня."""
+        # Предел опыта для следующего уровня - текущий набранный опыт:
+        return self.exp_next_level() - self.exp
+
     def __repr__(self):
-        return ("{} lvl: {} (общий тип: {}, имя типа: {}, раса: {}), stats: hp: {}/{}, str: {}, atk: {}, "
-                "vit: {}, spd: {}. eva: {}%, hit: {}%, luck: {}".format(self.name, self.level, self.type.name_type,
-                                                              self.type.name, self.type.race, self.hp, self.max_hp,
-                                                              self.strength, self.atk, self.vitality, self.speed,
-                                                              self.evasion, self.hit, self.luck))
+        levels = "lvl: {} ({}/{}{})".format(self.level, self.exp, self.exp_next_level(),
+                                            ", до следующего: {}".format(self.need_exp())
+                                            if self.level < MAX_LEVEL else "")
+        heredity = "(общий тип: {}, имя типа: {}, раса: {})".format(self.type.name_type, self.type.name,
+                                                                    self.type.race)
+        stats = ("\n\t\tСтаты: hp: {}/{}, str: {}, atk: {}, vit: {}, spd: {}. eva: {}%, "
+                 "hit: {}%, luck: {}".format(self.hp, self.max_hp, self.strength, self.atk, self.vitality,
+                                             self.speed, self.evasion, self.hit, self.luck))
+        return "{} {} {} {}".format(self.name, levels, heredity, stats)
