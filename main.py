@@ -64,6 +64,12 @@ if __name__ == '__main__':
     sandbox(g1, g2)
 
 
+    # # Проверка того, что данный персонаж принадлежит группе
+    # print()
+    # print("z1 относится к g2 is {}".format(z1 in g2))  # True
+    # print("z1 относится к g1 is {}".format(z1 in g1))  # False
+
+
     # # Изменение статов с уровнем
     # h = ClassPersonage.Hero()
     # print(h)
