@@ -5,6 +5,7 @@ __author__ = 'ipetrash'
 
 import ClassPersonage
 import BasePersonage as bp
+import Type as t
 # import time
 
 
@@ -63,20 +64,32 @@ if __name__ == '__main__':
     # g2 = [z1, z2, z3, z4]
     # sandbox(g1, g2)
 
+    # w = ClassPersonage.Wolf()
+    # print(w)
 
-    # Проверка получение опыта при убийстве:
-    h = ClassPersonage.Hero()
-    h.d_type.b_strength = 1000
-    h.d_type.b_atk = 1000
-    h.update_states()
-    print(h)
+    print(ClassPersonage.Hero())
+    print(ClassPersonage.Personage(ptype=t.Human()))
+    print(ClassPersonage.Goblin())
+    print(ClassPersonage.Ork())
+    print(ClassPersonage.Zombi())
 
-    g = ClassPersonage.Goblin()
-    g.level = bp.MAX_LEVEL
-    bp.DEBUG_MODE = True
-    h.attack_to(g)
-    bp.DEBUG_MODE = False
-    print(h)
+    # Классы персонажа, созданный на основе Типа Human
+    print(ClassPersonage.Bandit())
+    print(ClassPersonage.Thief())
+
+    # # Проверка получение опыта при убийстве:
+    # h = ClassPersonage.Hero()
+    # h.d_type.b_strength = 1000
+    # h.d_type.b_atk = 1000
+    # h.update_states()
+    # print(h)
+    #
+    # g = ClassPersonage.Goblin()
+    # g.level = bp.MAX_LEVEL
+    # bp.DEBUG_MODE = True
+    # h.attack_to(g)
+    # bp.DEBUG_MODE = False
+    # print(h)
 
     # # Проверка того, что данный персонаж принадлежит группе
     # print()
