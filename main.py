@@ -69,17 +69,14 @@ if __name__ == '__main__':
     h.d_type.b_strength = 1000
     h.d_type.b_atk = 1000
     h.update_states()
-    h.exp = 9
-    print(h)
-    h.level += 5
     print(h)
 
-    print("\n\n")
-    z = ClassPersonage.Zombi()
-    for i in range(z.level + 1, bp.MAX_LEVEL):
-        z.level = i
-        print("lvl{} : gives_exp: {}, exp: {}".format(i, z.gives_exp, bp.EXPS[i]))
-
+    g = ClassPersonage.Goblin()
+    g.level = bp.MAX_LEVEL
+    bp.DEBUG_MODE = True
+    h.attack_to(g)
+    bp.DEBUG_MODE = False
+    print(h)
 
     # # Проверка того, что данный персонаж принадлежит группе
     # print()
@@ -132,7 +129,6 @@ if __name__ == '__main__':
     #
     # elif z.dead:
     #     print("Поздравляю чувак! Ты убил {} lvl {}!!".format(z.name, z.level))
-    #     h.exp += z.gives_exp
     #
     # print("Бой занял {} раундов и {:.1f} секунд.".format(c, time.time() - t))
     #
