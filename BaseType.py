@@ -37,8 +37,6 @@ class BaseType:
         c.strength = floor(self.b_strength + self.m_strength * c.level)
         c.vitality = floor(self.b_vitality + self.m_vitality * c.level)
         c.speed = self.b_speed
-        # TODO: мне кажется, что стат скорость должен увеличивать уклонение
-        # (например, +1 за каждые 5 единиц скорости)
         c.evasion = self.b_evasion
         c.hit = self.b_hit
         c.luck = self.b_luck
@@ -47,6 +45,11 @@ class BaseType:
         # [Str * HPMod(Level) / 50]
         c.max_hp = floor(c.strength * bp.HPMOD[c.level] / 50)
         c.hp = c.max_hp
+
+        # Возвращаемый опыт = планка опыта для следующего уровня,
+        # деленное на значение текущего уровня умноженное на 4
+        # TODO: доработать формулу получения возвращаемого опыта
+        c.gives_exp = c.exp_next_level() // (c.level * 4)
 
         c.name = self.name if not c.name else c.name
         c.desc = self.desc if not c.desc else c.desc
