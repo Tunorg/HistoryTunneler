@@ -78,7 +78,7 @@ if __name__ == '__main__':
     z = ClassPersonage.Zombi()
     for i in range(z.level + 1, bp.MAX_LEVEL):
         z.level = i
-        print("lvl{} : gives_exp: {}".format(i, z.gives_exp))
+        print("lvl{} : gives_exp: {}, exp: {}".format(i, z.gives_exp, bp.EXPS[i]))
 
 
     # # Проверка того, что данный персонаж принадлежит группе
