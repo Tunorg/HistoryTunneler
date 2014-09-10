@@ -26,47 +26,24 @@ __author__ = 'ipetrash'
 # TODO: добавить регистрация типов, так чтобы можно было в любой момент получить список типов, или получить
 # тип по имени (или другому индивидуальному признаку)
 
-
-import BaseType
-
-
-class Zombi(BaseType.Undead):
-    """Зомби"""
-
-    def __init__(self):
-        super().__init__()
-
-        self.name = "Зомби"
-        self.desc = "Когда-то это было живым существом."
-
-        self.b_evasion = 0  # Зомби медленные и неуклюжие, потому не умеют уклоняться
-        self.b_speed = 6
-        self.b_hit = 85  # Зомби сложно попасть
+# TODO: рассчитать базовые статы типов
 
 
-class SuperZombi(Zombi):
-    """Зомби-чемпион"""
-
-    def __init__(self):
-        super().__init__()
-
-        self.name = "Зомби-Чемпион"
-
-        self.b_speed *= 1.2
-
-        # Чемпион-зомби будет сильнее обычного зомби
-        self.m_atk *= 1.5
-        self.m_strength *= 1.5
-        self.m_vitality *= 1.5
+import BaseType as bt
 
 
-class Human(BaseType.Humanoids):
+class Human(bt.Humanoids):
     """Человек"""
 
     def __init__(self):
         super().__init__()
 
         self.race = "Человек"
+
+        self.b_atk = 4
+        self.b_strength = 4
+        self.b_vitality = 4
+        self.b_speed = 10
 
 
 class Hero(Human):
@@ -75,15 +52,15 @@ class Hero(Human):
     def __init__(self):
         super().__init__()
 
-        self.name = "Проходчик"
+        self.name = "Герой"
         self.desc = "Главный герой этой истории"
-    
+
         self.b_atk = 10
         self.b_strength = 8
         self.b_hit = 100
         self.b_speed = 15
         self.b_evasion = 10
-    
+
         self.m_atk = 10
         self.m_strength = 8
         self.m_vitality = 6
@@ -105,56 +82,22 @@ class Hero(Human):
         c.luck += c.level // 5
 
 
-# http://www.mirf.ru/Articles/art200.htm
-class Goblin(BaseType.Humanoids):
-    """Гоблин"""
-
-    def __init__(self):
-        super().__init__()
-
-        self.name = "Гоблин"
-        self.desc = "Маленькое, пронырливое, трусливое зеленокожее существо."
-        self.race = "Гоблиноид"
-    
-        self.b_atk = 2
-        self.b_strength = 2
-        self.b_vitality = 1
-        self.b_speed = 9
-        self.b_evasion = 7
-
-
-# http://www.mirf.ru/Articles/art200.htm
-class Hobgoblin(Goblin):
-    """Хобгоблин"""
-
-    def __init__(self):
-        super().__init__()
-
-        self.name = "Хобгоблин"
-
-        self.b_atk = 12
-        self.b_strength = 10
-        self.b_vitality = 10
-        self.b_evasion = 3
-
-        # Хобгоблин сильнее гоблина
-        self.m_atk *= 1.3
-        self.m_strength *= 1.3
-        self.m_vitality *= 1.3
-
-
-# http://www.mirf.ru/Articles/art200.htm
-class Ork(BaseType.Humanoids):
-    """Орк"""
-
-    def __init__(self):
-        super().__init__()
-
-        self.name = "Орк"
-        self.race = "Гоблиноид"
-
-        self.b_atk = 8
-        self.b_strength = 8
-        self.b_vitality = 8
-        self.b_speed = 8
-        self.b_evasion = 5
+# TODO: реализовать в классе персонажа, наследуя от класса персонажа Goblin
+# # http://www.mirf.ru/Articles/art200.htm
+# class Hobgoblin(Goblin):
+#     """Хобгоблин"""
+#
+#     def __init__(self):
+#         super().__init__()
+#
+#         self.name = "Хобгоблин"
+#
+#         self.b_atk = 12
+#         self.b_strength = 10
+#         self.b_vitality = 10
+#         self.b_evasion = 3
+#
+#         # Хобгоблин сильнее гоблина
+#         self.m_atk *= 1.3
+#         self.m_strength *= 1.3
+#         self.m_vitality *= 1.3
