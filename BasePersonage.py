@@ -276,9 +276,15 @@ class Personage:
     def level_up(self):
         self.level += 1
 
-    # TODO: добавление опыта при убийстве противника
     def attack_to(self, other):
         """Функция атаки персонажей."""
+
+        # Нельзя напасть на мертвого противника (нежить может быть живой или мертвой)
+        if other.dead:
+            if DEBUG_MODE:
+                print("Нельзя напасть на персонажа {}, "
+                      "потому что он мертв.".format(other.name))
+            return
 
         # Определим попали ли по противнику
         # Hit% = (Luck Атакующего / 2 + Hit Атакующего — Eva Цели — Luck Цели)
@@ -321,6 +327,10 @@ class Personage:
                     print(" {} мертв!".format(other.name))
                 else:
                     print(" Осталось hp: {}".format(other.hp))
+
+            # Если атакуемый персонаж после атаки умер, получим опыт с него
+            if other.dead:
+                self.exp += other.gives_exp
         else:
             if DEBUG_MODE:
                 print(" {}({}) промахнулся по {}({})!".format(self.name, self.level, other.name, other.level))
