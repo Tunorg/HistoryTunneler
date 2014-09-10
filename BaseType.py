@@ -48,7 +48,6 @@ class BaseType:
 
         # Возвращаемый опыт = планка опыта для следующего уровня,
         # деленное на значение текущего уровня умноженное на 4
-        # TODO: доработать формулу получения возвращаемого опыта
         c.gives_exp = c.exp_next_level() // (c.level * 4)
 
         c.name = self.name if not c.name else c.name
