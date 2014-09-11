@@ -5,7 +5,7 @@ __author__ = 'ipetrash'
 
 import ClassPersonage
 import BasePersonage as bp
-import Type as t
+import BaseType as bt
 # import time
 
 
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     # print(w)
 
     print(ClassPersonage.Hero())
-    print(ClassPersonage.Personage(ptype=t.Human()))
+    print(ClassPersonage.Personage(ptype=bt.Human()))
     print(ClassPersonage.Goblin())
     print(ClassPersonage.Ork())
     print(ClassPersonage.Zombi())
