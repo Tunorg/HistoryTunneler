@@ -12,10 +12,6 @@ import BaseType as bt
 
 # TODO: рассчитать базовые статы типов
 
-# TODO: т.к. большиство типов, которые были в данном модуле, были интегрированы
-#  в классы персонажей, то теперь данный модуль не нужен. Тип Human перенести
-# в модуль BaseType, а тип Hero в модуль ClassPersonage, а данный модуль удалить.
-
 
 class TypeHero(bt.Human):
     """Герой"""
@@ -56,19 +52,19 @@ class TypeHero(bt.Human):
 # TODO: реализовать в классе персонажа, наследуя от класса персонажа Goblin
 # # http://www.mirf.ru/Articles/art200.htm
 # class Hobgoblin(Goblin):
-#     """Хобгоблин"""
+#     """Домовой"""
 #
 #     def __init__(self):
 #         super().__init__()
 #
-#         self.name = "Хобгоблин"
+#         self.name = "Домовой"
 #
 #         self.b_atk = 12
 #         self.b_strength = 10
 #         self.b_vitality = 10
 #         self.b_evasion = 3
 #
-#         # Хобгоблин сильнее гоблина
+#         # Домовой сильнее гоблина
 #         self.m_atk *= 1.3
 #         self.m_strength *= 1.3
 #         self.m_vitality *= 1.3
