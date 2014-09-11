@@ -4,7 +4,6 @@ __author__ = 'ipetrash'
 
 
 from BasePersonage import Personage
-import Type as t
 import BaseType as bt
 
 
