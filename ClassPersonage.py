@@ -8,12 +8,79 @@ import Type as t
 import BaseType as bt
 
 
+# TODO: добавить регистрация типов, так чтобы можно было в любой момент получить список типов, или получить
+# тип по имени (или другому индивидуальному признаку)
+
+# TODO: рассчитать базовые статы типов
+
+# TODO: т.к. большиство типов, которые были в данном модуле, были интегрированы
+#  в классы персонажей, то теперь данный модуль не нужен. Тип Human перенести
+# в модуль BaseType, а тип Hero в модуль ClassPersonage, а данный модуль удалить.
+
+
+class TypeHero(bt.Human):
+    """Герой"""
+
+    def __init__(self):
+        super().__init__()
+
+        self.name = "Герой"
+        self.desc = "Главный герой этой истории"
+
+        self.b_atk = 10
+        self.b_strength = 8
+        self.b_hit = 100
+        self.b_speed = 15
+        self.b_evasion = 10
+
+        self.m_atk = 10
+        self.m_strength = 8
+        self.m_vitality = 6
+
+    def do_calc_stats(self, c):
+        """Переопределенная функция выполняет подсчет статов героя"""
+
+        super().do_calc_stats(c)
+
+        # Добавим собственное правило для героя:
+        # шанс уклонения повышается на 1 за каждые 5 уровней персонажа
+        c.evasion += c.level // 5
+
+        # скорость повышается на 1 за каждые 7 уровней персонажа
+        c.speed += c.level // 7
+
+        # все герои удачливые и наш не исключение!
+        # удача повышается на 1 за каждые 5 уровней персонажа
+        c.luck += c.level // 5
+
+
+# TODO: реализовать в классе персонажа, наследуя от класса персонажа Goblin
+# # http://www.mirf.ru/Articles/art200.htm
+# class Hobgoblin(Goblin):
+#     """Хобгоблин"""
+#
+#     def __init__(self):
+#         super().__init__()
+#
+#         self.name = "Хобгоблин"
+#
+#         self.b_atk = 12
+#         self.b_strength = 10
+#         self.b_vitality = 10
+#         self.b_evasion = 3
+#
+#         # Хобгоблин сильнее гоблина
+#         self.m_atk *= 1.3
+#         self.m_strength *= 1.3
+#         self.m_vitality *= 1.3
+
+
 class Hero(Personage):
     """Класс Герой"""
 
     def __init__(self):
         super().__init__()
-        self.type = t.Hero()
+        self.type = TypeHero()
 
 
 class Bandit(Personage):
@@ -23,7 +90,7 @@ class Bandit(Personage):
         super().__init__()
         self.name = "Бандит"
 
-        self.type = t.Human()
+        self.type = bt.Human()
         self.type.name = "Бандит"
         self.type.b_atk = 4
         self.type.b_strength = 3
@@ -40,7 +107,7 @@ class Thief(Personage):
         super().__init__()
         self.name = "Вор"
 
-        self.type = t.Human()
+        self.type = bt.Human()
         self.type.name = "Вор"
         self.type.b_atk = 2
         self.type.b_strength = 2

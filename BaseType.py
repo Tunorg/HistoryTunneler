@@ -217,3 +217,17 @@ class Monstrosities(BaseType):
 
         self.name_type = "Чудовища"
         self.desc = "Результаты магических экспериментов, уникальные монстры, жертвы проклятий и пр."
+
+
+class Human(Humanoids):
+    """Человек"""
+
+    def __init__(self):
+        super().__init__()
+
+        self.race = "Человек"
+
+        self.b_atk = 4
+        self.b_strength = 4
+        self.b_vitality = 4
+        self.b_speed = 10
