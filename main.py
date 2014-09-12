@@ -70,6 +70,7 @@ if __name__ == '__main__':
     print(ClassPersonage.Hero())
     print(ClassPersonage.Personage(ptype=bt.Human()))
     print(ClassPersonage.Goblin())
+    print(ClassPersonage.Hobgoblin())
     print(ClassPersonage.Ork())
     print(ClassPersonage.Zombi())
 
