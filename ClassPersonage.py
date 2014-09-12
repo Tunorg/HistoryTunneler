@@ -49,27 +49,6 @@ class TypeHero(bt.Human):
         c.luck += c.level // 5
 
 
-# TODO: реализовать в классе персонажа, наследуя от класса персонажа Goblin
-# # http://www.mirf.ru/Articles/art200.htm
-# class Hobgoblin(Goblin):
-#     """Домовой"""
-#
-#     def __init__(self):
-#         super().__init__()
-#
-#         self.name = "Домовой"
-#
-#         self.b_atk = 12
-#         self.b_strength = 10
-#         self.b_vitality = 10
-#         self.b_evasion = 3
-#
-#         # Домовой сильнее гоблина
-#         self.m_atk *= 1.3
-#         self.m_strength *= 1.3
-#         self.m_vitality *= 1.3
-
-
 class Hero(Personage):
     """Класс Герой"""
 
@@ -149,7 +128,29 @@ class Goblin(Personage):
         self.type.b_evasion = 7
         
         self.update_states()
-        
+
+
+# http://www.mirf.ru/Articles/art200.htm
+class Hobgoblin(Goblin):
+    """Домовой"""
+
+    def __init__(self):
+        super().__init__()
+
+        self.name = "Домовой"
+        self.type.name = "Домовой"
+        self.type.b_atk = 12
+        self.type.b_strength = 10
+        self.type.b_vitality = 10
+        self.type.b_evasion = 3
+
+        # Домовой сильнее гоблина
+        self.type.m_atk *= 1.3
+        self.type.m_strength *= 1.3
+        self.type.m_vitality *= 1.3
+
+        self.update_states()
+
 
 # http://www.mirf.ru/Articles/art200.htm
 class Ork(Personage):
