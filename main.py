@@ -9,6 +9,8 @@ import time
 
 
 def sandbox(g1, g2):
+    # TODO: если в группе есть 2 и больше персонажа одинакового класса (например, Зомби), то нужно к их
+    # именам добавить номер
     print("Группа 1:")
     for i, p in enumerate(g1):
         print("{}. {}".format(i + 1, "{}(lvl {}): {}".format(p.name, p.level, type(p))))
