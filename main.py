@@ -36,7 +36,7 @@ def sandbox(g1, g2):
     set_num_pers_in_group(g1)
     set_num_pers_in_group(g2)
 
-    # Словарь, у которого ключем является персонаж, а значением номер группы,
+    # Словарь, у которого ключом является персонаж, а значением номер группы,
     # в которую входит персонаж
     pers_number_group = dict()
     for p in g1:
@@ -55,6 +55,43 @@ def sandbox(g1, g2):
     print("\nПорядок хода:")
     for p in sorted_commons:
         print("Группа: [{}]: Скорость: {}, {} (lvl {})".format(pers_number_group[p], p.speed, p.name, p.level))
+    print()
+
+    ## Бой
+    c = 1  # Количество раундов
+    t = time.time()
+    h = g1[0]  # Первая группа -- герой
+
+    # Пока герой жив и в вражеской группе есть персонажи
+    while not h.dead and g2:
+        time.sleep(1.5)
+
+        print("Раунд {}".format(c))
+
+        for p in commons:
+            cur_is_g1 = p in g1
+            enemy_group = g2 if cur_is_g1 else g1
+            if not enemy_group:
+                print("Из вражеской группы все мертвы!")
+                break
+
+            enemy = enemy_group[0]
+            bp.DEBUG_MODE = True
+            p.attack_to(enemy)
+            bp.DEBUG_MODE = False
+            if enemy.dead:
+                commons.remove(enemy)
+                enemy_group.remove(enemy)
+
+        c += 1
+
+    print("\n")
+    if h.dead:
+        print("Ты умер! Вот ты лах!")
+    else:
+        print("Ты победил!")
+
+    print("Бой занял {} раундов и {:.1f} секунд.".format(c, time.time() - t))
 
 
 if __name__ == '__main__':
