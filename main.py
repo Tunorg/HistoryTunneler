@@ -28,7 +28,7 @@ def set_num_pers_in_group(group):
             p.name += " {}".format(c)  # Добавление номера к имени персонажа
 
 
-# TODO: добавить бой командами с выбором действий
+# TODO: добавить выбор действий
 def sandbox(g1, g2):
     """Песочница для боя между двумя группами."""
 
@@ -85,7 +85,7 @@ def sandbox(g1, g2):
 
         c += 1
 
-    print("\n")
+    print()
     if h.dead:
         print("Ты умер! Вот ты лах!")
     else:
@@ -115,40 +115,3 @@ if __name__ == '__main__':
 
     # Бой:
     sandbox(g1, g2)
-
-    # h = ClassPersonage.Hero()
-    # z = ClassPersonage.Zombi()
-    # z.level = 2  # Пусть у зомби будет 3-й уровень
-    # print()
-    # print(h)
-    # print(z)
-    #
-    # bp.DEBUG_MODE = True
-    # c = 1
-    #
-    # t = time.time()
-    # while not h.dead or not z.dead:
-    #     print()
-    #     print("Раунд {}".format(c))
-    #     print("{}(hp: {})  VS  {} (hp: {})".format(h.name, h.hp, z.name, z.hp), end="\n ")
-    #
-    #     h.attack_to(z)
-    #     if z.dead:
-    #         break
-    #
-    #     z.attack_to(h)
-    #     if h.dead:
-    #         break
-    #
-    #     c += 1
-    #     time.sleep(1.5)  # Ждем 1.5 секунды
-    #     # input()
-    #
-    # print("\n")
-    # if h.dead:
-    #     print("Ты умер! Вот ты лах!")
-    #
-    # elif z.dead:
-    #     print("Поздравляю чувак! Ты убил {} lvl {}!!".format(z.name, z.level))
-    #
-    # print("Бой занял {} раундов и {:.1f} секунд.".format(c, time.time() - t))
